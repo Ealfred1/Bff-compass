@@ -34,15 +34,15 @@ export default async function DashboardPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="border-border">
               <CardHeader>
-                <CardTitle className="font-poppins">Find Buddies</CardTitle>
+                <CardTitle className="font-poppins">My Buddy Group</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4 font-poppins">
-                  Discover people who match your interests and values
+                  AI-matched groups of 3-5 people with shared interests
                 </p>
                 <Link href="/dashboard/matches">
                   <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary font-poppins">
-                    Browse Matches
+                    Find My Group
                   </Button>
                 </Link>
               </CardContent>
@@ -50,13 +50,27 @@ export default async function DashboardPage() {
 
             <Card className="border-border">
               <CardHeader>
-                <CardTitle className="font-poppins">My Connections</CardTitle>
+                <CardTitle className="font-poppins">My Guidance</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground mb-4 font-poppins">Chat with your connected buddies</p>
-                <Link href="/dashboard/connections">
+                <p className="text-sm text-muted-foreground mb-4 font-poppins">Daily messages & weekly videos for your wellness</p>
+                <Link href="/dashboard/guidance">
                   <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary font-poppins">
-                    View Connections
+                    View Guidance
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="border-border">
+              <CardHeader>
+                <CardTitle className="font-poppins">Events</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4 font-poppins">Join in-person activities and earn badges</p>
+                <Link href="/dashboard/events">
+                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary font-poppins">
+                    View Events
                   </Button>
                 </Link>
               </CardContent>
@@ -78,10 +92,10 @@ export default async function DashboardPage() {
 
             <Card className="border-border">
               <CardHeader>
-                <CardTitle className="font-poppins">Achievements</CardTitle>
+                <CardTitle className="font-poppins">My Badges</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground mb-4 font-poppins">Earn badges as you connect</p>
+                <p className="text-sm text-muted-foreground mb-4 font-poppins">Earn achievements as you connect</p>
                 <Link href="/dashboard/badges">
                   <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary font-poppins">
                     View Badges
@@ -90,15 +104,15 @@ export default async function DashboardPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-border">
+            <Card className="border-border border-destructive/50 bg-destructive/5">
               <CardHeader>
-                <CardTitle className="font-poppins">Resources</CardTitle>
+                <CardTitle className="font-poppins">Mental Health Resources</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground mb-4 font-poppins">Learn tips for connecting</p>
+                <p className="text-sm text-muted-foreground mb-4 font-poppins">Crisis support & wellness resources</p>
                 <Link href="/dashboard/resources">
-                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary font-poppins">
-                    Read Guides
+                  <Button className="w-full bg-destructive text-destructive-foreground hover:bg-destructive/90 border border-destructive font-poppins">
+                    Get Support
                   </Button>
                 </Link>
               </CardContent>

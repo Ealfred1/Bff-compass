@@ -1,0 +1,120 @@
+import { NextResponse } from "next/server"
+import { createClient } from "@/lib/supabase/server"
+
+export async function POST(request: Request) {
+  try {
+    const supabase = await createClient()
+
+    // Get current user
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
+    // Check if user is already in a group
+    const { data: existingMembership } = await supabase
+      .from("buddy_group_members")
+      .select("group_id, buddy_groups(*)")
+      .eq("user_id", user.id)
+      .eq("buddy_groups.status", "active")
+      .single()
+
+    if (existingMembership) {
+      return NextResponse.json({
+        success: true,
+        group: existingMembership.buddy_groups,
+        message: "Already in a group",
+      })
+    }
+
+    // Get user's latest assessments
+    const { data: lonelinessData } = await supabase
+      .from("loneliness_assessments")
+      .select("total_score, loneliness_category")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single()
+
+    const { data: leisureData } = await supabase
+      .from("leisure_assessments")
+      .select("top_categories, combined_scores")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single()
+
+    if (!lonelinessData || !leisureData) {
+      return NextResponse.json({ error: "Please complete onboarding surveys first" }, { status: 400 })
+    }
+
+    // Find available groups with matching criteria (under 5 members)
+    const { data: availableGroups } = await supabase
+      .from("buddy_groups")
+      .select(
+        `
+        *,
+        buddy_group_members(count)
+      `
+      )
+      .eq("status", "active")
+      .lt("buddy_group_members.count", 5)
+
+    // Simple matching: find groups with similar loneliness category
+    let targetGroup = null
+    for (const group of availableGroups || []) {
+      const criteria = group.matching_criteria as any
+      if (
+        criteria?.loneliness_category === lonelinessData.loneliness_category &&
+        group.buddy_group_members?.[0]?.count < 5
+      ) {
+        targetGroup = group
+        break
+      }
+    }
+
+    // If no matching group found, create new group
+    if (!targetGroup) {
+      const { data: newGroup, error: createError } = await supabase
+        .from("buddy_groups")
+        .insert({
+          created_by: user.id,
+          is_ai_matched: true,
+          matching_criteria: {
+            loneliness_category: lonelinessData.loneliness_category,
+            leisure_categories: leisureData.top_categories,
+            created_at: new Date().toISOString(),
+          },
+          status: "active",
+        })
+        .select()
+        .single()
+
+      if (createError) throw createError
+      targetGroup = newGroup
+    }
+
+    // Add user to the group
+    const { error: memberError } = await supabase.from("buddy_group_members").insert({
+      group_id: targetGroup.id,
+      user_id: user.id,
+      role: targetGroup.created_by === user.id ? "creator" : "member",
+    })
+
+    if (memberError) throw memberError
+
+    return NextResponse.json({
+      success: true,
+      group: targetGroup,
+      message: "Successfully joined a buddy group",
+    })
+  } catch (error: any) {
+    console.error("Error in find-or-create:", error)
+    return NextResponse.json({ error: error.message || "Internal server error" }, { status: 500 })
+  }
+}
+
