@@ -95,17 +95,31 @@ export async function POST(request: Request) {
     }
 
     // Add user to the group
-    const { error: memberError } = await supabase.from("buddy_group_members").insert({
-      group_id: targetGroup.id,
-      user_id: user.id,
-      role: targetGroup.created_by === user.id ? "creator" : "member",
-    })
+    const { data: newMember, error: memberError } = await supabase
+      .from("buddy_group_members")
+      .insert({
+        group_id: targetGroup.id,
+        user_id: user.id,
+        role: targetGroup.created_by === user.id ? "creator" : "member",
+      })
+      .select()
+      .single()
 
-    if (memberError) throw memberError
+    if (memberError) {
+      console.error("Failed to add member to group:", memberError)
+      throw memberError
+    }
+
+    console.log("✅ Successfully added user to group:", {
+      groupId: targetGroup.id,
+      userId: user.id,
+      role: newMember?.role,
+    })
 
     return NextResponse.json({
       success: true,
       group: targetGroup,
+      member: newMember,
       message: "Successfully joined a buddy group",
     })
   } catch (error: any) {
