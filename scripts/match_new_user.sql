@@ -30,18 +30,17 @@ BEGIN
 
   -- Insert loneliness assessment matching the target user's category
   -- Using a similar score in the "Moderate" range (15-17)
+  -- Note: loneliness_category is auto-generated based on total_score
   INSERT INTO public.loneliness_assessments (
     user_id,
     scores,
     total_score,
-    loneliness_category,
     survey_trigger,
     created_at
   ) VALUES (
     new_user_id,
     '{"0": 3, "1": 3, "2": 2, "3": 3, "4": 3, "5": 2}'::jsonb, -- Total = 16 (Moderate)
     16,
-    'Moderate',
     'onboarding',
     NOW()
   );
