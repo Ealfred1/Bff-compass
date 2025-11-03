@@ -5,6 +5,9 @@
 -- Drop the problematic recursive policy
 DROP POLICY IF EXISTS "group_members_select_own_groups" ON public.buddy_group_members;
 
+-- Drop if already exists from previous run
+DROP POLICY IF EXISTS "group_members_select_authenticated" ON public.buddy_group_members;
+
 -- Create a simpler, non-recursive policy
 -- Allow authenticated users to see all group members
 -- (Not sensitive data, and needed for group functionality)
@@ -19,6 +22,7 @@ IS 'Allow authenticated users to view group members (non-recursive)';
 
 -- Fix buddy_groups INSERT policy to work with server-side API
 DROP POLICY IF EXISTS "buddy_groups_insert_own" ON public.buddy_groups;
+DROP POLICY IF EXISTS "buddy_groups_insert_authenticated" ON public.buddy_groups;
 
 -- Allow any authenticated user to create groups
 -- Application ensures created_by is set correctly
