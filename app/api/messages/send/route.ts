@@ -18,15 +18,51 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
-    // Verify user is part of this connection
+    // Check if it's a buddy group (new system)
+    const { data: group } = await supabase
+      .from("buddy_groups")
+      .select("id")
+      .eq("id", connectionId)
+      .maybeSingle()
+
+    if (group) {
+      // It's a group - verify user is a member
+      const { data: membership } = await supabase
+        .from("buddy_group_members")
+        .select("id")
+        .eq("group_id", connectionId)
+        .eq("user_id", user.id)
+        .maybeSingle()
+
+      if (!membership) {
+        return NextResponse.json({ error: "Not a group member" }, { status: 403 })
+      }
+
+      // Send group message
+      const { data: message, error } = await supabase
+        .from("messages")
+        .insert({
+          group_id: connectionId,
+          sender_id: user.id,
+          content: content.trim(),
+        })
+        .select()
+        .single()
+
+      if (error) throw error
+
+      return NextResponse.json({ message })
+    }
+
+    // Fall back to old connections system
     const { data: connection, error: connError } = await supabase
       .from("connections")
       .select("user1_id, user2_id")
       .eq("id", connectionId)
-      .single()
+      .maybeSingle()
 
     if (connError || !connection) {
-      return NextResponse.json({ error: "Connection not found" }, { status: 404 })
+      return NextResponse.json({ error: "Connection or group not found" }, { status: 404 })
     }
 
     if (connection.user1_id !== user.id && connection.user2_id !== user.id) {

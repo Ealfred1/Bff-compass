@@ -19,15 +19,55 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Missing connectionId" }, { status: 400 })
     }
 
-    // Verify user is part of this connection
+    // Check if it's a buddy group (new system)
+    const { data: group } = await supabase
+      .from("buddy_groups")
+      .select("id")
+      .eq("id", connectionId)
+      .maybeSingle()
+
+    if (group) {
+      // It's a group - verify user is a member
+      const { data: membership } = await supabase
+        .from("buddy_group_members")
+        .select("id")
+        .eq("group_id", connectionId)
+        .eq("user_id", user.id)
+        .maybeSingle()
+
+      if (!membership) {
+        return NextResponse.json({ error: "Not a group member" }, { status: 403 })
+      }
+
+      // Get group messages
+      const { data: messages, error } = await supabase
+        .from("messages")
+        .select(`
+          id,
+          content,
+          encrypted_content,
+          encryption_iv,
+          created_at,
+          sender_id,
+          profiles(display_name)
+        `)
+        .eq("group_id", connectionId)
+        .order("created_at", { ascending: true })
+
+      if (error) throw error
+
+      return NextResponse.json({ messages: messages || [] })
+    }
+
+    // Fall back to old connections system
     const { data: connection, error: connError } = await supabase
       .from("connections")
       .select("user1_id, user2_id")
       .eq("id", connectionId)
-      .single()
+      .maybeSingle()
 
     if (connError || !connection) {
-      return NextResponse.json({ error: "Connection not found" }, { status: 404 })
+      return NextResponse.json({ error: "Connection or group not found" }, { status: 404 })
     }
 
     if (connection.user1_id !== user.id && connection.user2_id !== user.id) {
@@ -37,7 +77,7 @@ export async function GET(request: Request) {
     // Get messages with sender info
     const { data: messages, error } = await supabase
       .from("messages")
-      .select("id, content, created_at, sender_id, connections(user1_id, user2_id), profiles(display_name)")
+      .select("id, content, created_at, sender_id, profiles(display_name)")
       .eq("connection_id", connectionId)
       .order("created_at", { ascending: true })
 

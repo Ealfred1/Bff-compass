@@ -63,32 +63,55 @@ export default function MessagesPage() {
       if (!user) throw new Error("Not authenticated")
       setUserId(user.id)
 
-      const { data: conn, error: connError } = await supabase
-        .from("connections")
-        .select("id, user1_id, user2_id")
+      // Try to load as buddy group first (new system)
+      const { data: group, error: groupError } = await supabase
+        .from("buddy_groups")
+        .select("id, group_name")
         .eq("id", connectionId)
-        .single()
+        .maybeSingle()
 
-      if (connError) throw connError
+      if (group) {
+        // It's a buddy group - set up for group chat
+        setConnection({
+          id: group.id,
+          user1_id: user.id,
+          user2_id: user.id, // Not used for groups
+          other_user: {
+            id: group.id,
+            display_name: group.group_name || "Buddy Group",
+          },
+        })
+        loadMessages()
+      } else {
+        // Try old connections system (fallback)
+        const { data: conn, error: connError } = await supabase
+          .from("connections")
+          .select("id, user1_id, user2_id")
+          .eq("id", connectionId)
+          .maybeSingle()
 
-      const otherUserId = conn.user1_id === user.id ? conn.user2_id : conn.user1_id
+        if (!conn || connError) {
+          throw new Error("Connection or group not found")
+        }
 
-      const { data: otherUserData, error: userError } = await supabase
-        .from("profiles")
-        .select("id, display_name")
-        .eq("id", otherUserId)
-        .single()
+        const otherUserId = conn.user1_id === user.id ? conn.user2_id : conn.user1_id
 
-      if (userError) throw userError
+        const { data: otherUserData, error: userError } = await supabase
+          .from("profiles")
+          .select("id, display_name")
+          .eq("id", otherUserId)
+          .maybeSingle()
 
-      setConnection({
-        id: conn.id,
-        user1_id: conn.user1_id,
-        user2_id: conn.user2_id,
-        other_user: otherUserData,
-      })
+        if (!otherUserData || userError) throw new Error("User not found")
 
-      loadMessages()
+        setConnection({
+          id: conn.id,
+          user1_id: conn.user1_id,
+          user2_id: conn.user2_id,
+          other_user: otherUserData,
+        })
+        loadMessages()
+      }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Failed to load connection")
     } finally {
