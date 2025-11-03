@@ -25,7 +25,7 @@ Run the following SQL scripts in your Supabase SQL Editor **in order**:
 5. scripts/008_fix_rls_recursion.sql       # Fix RLS infinite recursion
 6. scripts/009_fix_messages_constraints.sql # Fix messages table for groups
 7. scripts/010_fix_badge_trigger.sql        # Fix badge trigger for messages
-8. scripts/011_fix_group_members_select.sql # Fix RLS to show all group members
+8. scripts/012_fix_recursive_policy.sql     # Fix RLS SELECT without recursion
 ```
 
 **What these scripts do:**
@@ -33,10 +33,10 @@ Run the following SQL scripts in your Supabase SQL Editor **in order**:
 - **005**: Seeds 20+ guidance messages/videos and 5 sample events
 - **006**: Creates SQL functions for AI matching, badge awarding, and helper queries + sets up triggers
 - **007**: Creates trigger to auto-create profile when user signs up (fixes foreign key errors)
-- **008**: Fixes RLS infinite recursion error in buddy_group_members policy
+- **008**: Fixes RLS infinite recursion error in buddy_groups policy (for creation)
 - **009**: Makes connection_id nullable so group messages work correctly
 - **010**: Fixes badge trigger to handle sender_id vs user_id in messages table
-- **011**: Fixes RLS SELECT policy so users can see all members in their groups
+- **012**: Fixes RLS SELECT policy without recursion (allows viewing all group members)
 
 ### 2. Environment Variables
 
