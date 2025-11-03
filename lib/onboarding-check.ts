@@ -19,24 +19,24 @@ export async function checkOnboardingStatus() {
   }
 
   // Check if loneliness assessment exists
-  const { data: lonelinessData, error: lonelinessError } = await supabase
+  const { data: lonelinessData } = await supabase
     .from("loneliness_assessments")
     .select("id")
     .eq("user_id", user.id)
     .limit(1)
-    .single()
+    .maybeSingle()
 
-  const hasLonelinessAssessment = !lonelinessError && lonelinessData
+  const hasLonelinessAssessment = !!lonelinessData
 
   // Check if leisure assessment exists
-  const { data: leisureData, error: leisureError } = await supabase
+  const { data: leisureData } = await supabase
     .from("leisure_assessments")
     .select("id")
     .eq("user_id", user.id)
     .limit(1)
-    .single()
+    .maybeSingle()
 
-  const hasLeisureAssessment = !leisureError && leisureData
+  const hasLeisureAssessment = !!leisureData
 
   return {
     user,

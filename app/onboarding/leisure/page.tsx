@@ -51,15 +51,15 @@ export default function LeisureSurveyPage() {
         }
 
         // Check if loneliness assessment exists
-        const { data: lonelinessData, error: lonelinessError } = await supabase
+        const { data: lonelinessData } = await supabase
           .from("loneliness_assessments")
           .select("id")
           .eq("user_id", user.id)
           .limit(1)
-          .single()
+          .maybeSingle()
 
         // If no loneliness assessment, redirect to loneliness page
-        if (lonelinessError || !lonelinessData) {
+        if (!lonelinessData) {
           router.push("/onboarding/loneliness")
           return
         }
@@ -70,7 +70,7 @@ export default function LeisureSurveyPage() {
           .select("id")
           .eq("user_id", user.id)
           .limit(1)
-          .single()
+          .maybeSingle()
 
         // If leisure assessment exists, redirect to dashboard
         if (leisureData) {

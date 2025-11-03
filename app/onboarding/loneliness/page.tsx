@@ -51,7 +51,7 @@ export default function LonelinessSurveyPage() {
           .select("id")
           .eq("user_id", user.id)
           .limit(1)
-          .single()
+          .maybeSingle()
 
         // If exists, redirect to leisure page or dashboard
         if (lonelinessData) {
@@ -61,7 +61,7 @@ export default function LonelinessSurveyPage() {
             .select("id")
             .eq("user_id", user.id)
             .limit(1)
-            .single()
+            .maybeSingle()
 
           if (leisureData) {
             router.push("/dashboard")
