@@ -21,12 +21,14 @@ Run the following SQL scripts in your Supabase SQL Editor **in order**:
 1. scripts/004_add_missing_tables.sql      # Creates 7 new tables + updates
 2. scripts/005_seed_guidance_content.sql   # Seeds guidance content & events
 3. scripts/006_helper_functions.sql        # Helper functions & triggers
+4. scripts/007_auto_create_profiles.sql    # Auto-create profiles on signup
 ```
 
 **What these scripts do:**
 - **004**: Creates buddy_groups, buddy_group_members, events, event_attendance, guidance_content, user_guidance_history, mental_health_resources tables + updates existing tables
 - **005**: Seeds 20+ guidance messages/videos and 5 sample events
 - **006**: Creates SQL functions for AI matching, badge awarding, and helper queries + sets up triggers
+- **007**: Creates trigger to auto-create profile when user signs up (fixes foreign key errors)
 
 ### 2. Environment Variables
 
