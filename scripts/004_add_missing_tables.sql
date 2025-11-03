@@ -170,13 +170,16 @@ CREATE TABLE IF NOT EXISTS public.user_guidance_history (
   user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   guidance_content_id UUID NOT NULL REFERENCES public.guidance_content(id) ON DELETE CASCADE,
   viewed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  completed BOOLEAN DEFAULT FALSE,
-  UNIQUE(user_id, guidance_content_id, (viewed_at::date))
+  completed BOOLEAN DEFAULT FALSE
 );
 
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_guidance_history_user_id ON public.user_guidance_history(user_id);
 CREATE INDEX IF NOT EXISTS idx_guidance_history_viewed_at ON public.user_guidance_history(viewed_at DESC);
+
+-- Create unique index with expression for one view per content per day
+CREATE UNIQUE INDEX IF NOT EXISTS idx_guidance_history_unique_per_day 
+  ON public.user_guidance_history(user_id, guidance_content_id, (viewed_at::date));
 
 -- 13. Create mental_health_resources table
 CREATE TABLE IF NOT EXISTS public.mental_health_resources (
