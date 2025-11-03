@@ -53,28 +53,22 @@ export async function POST(request: Request) {
     }
 
     // Find available groups with matching criteria (under 5 members)
-    const { data: availableGroups } = await supabase
-      .from("buddy_groups")
-      .select(
-        `
-        *,
-        buddy_group_members(count)
-      `
-      )
-      .eq("status", "active")
-      .lt("buddy_group_members.count", 5)
+    // Use the PostgreSQL function we created that properly handles capacity checking
+    const { data: availableGroups } = await supabase.rpc("get_groups_with_capacity", {
+      category: lonelinessData.loneliness_category,
+    })
 
-    // Simple matching: find groups with similar loneliness category
+    // Simple matching: find first group with capacity and matching loneliness category
     let targetGroup = null
-    for (const group of availableGroups || []) {
-      const criteria = group.matching_criteria as any
-      if (
-        criteria?.loneliness_category === lonelinessData.loneliness_category &&
-        group.buddy_group_members?.[0]?.count < 5
-      ) {
-        targetGroup = group
-        break
-      }
+    if (availableGroups && availableGroups.length > 0) {
+      // Get the full group details for the first available match
+      const { data: groupDetails } = await supabase
+        .from("buddy_groups")
+        .select("*")
+        .eq("id", availableGroups[0].id)
+        .single()
+
+      targetGroup = groupDetails
     }
 
     // If no matching group found, create new group
