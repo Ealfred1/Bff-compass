@@ -20,22 +20,28 @@ CREATE POLICY "group_members_select_authenticated" ON public.buddy_group_members
 COMMENT ON POLICY "group_members_select_authenticated" ON public.buddy_group_members 
 IS 'Allow authenticated users to view group members (non-recursive)';
 
--- Fix buddy_groups INSERT policy to work with server-side API
+-- Fix buddy_groups policies to work with server-side API
+DROP POLICY IF EXISTS "buddy_groups_select_member" ON public.buddy_groups;
 DROP POLICY IF EXISTS "buddy_groups_insert_own" ON public.buddy_groups;
 DROP POLICY IF EXISTS "buddy_groups_insert_authenticated" ON public.buddy_groups;
+DROP POLICY IF EXISTS "buddy_groups_update_own" ON public.buddy_groups;
+
+-- Allow authenticated users to see all active groups (needed for matching)
+CREATE POLICY "buddy_groups_select_authenticated" ON public.buddy_groups FOR SELECT
+  USING (auth.uid() IS NOT NULL AND status = 'active');
 
 -- Allow any authenticated user to create groups
--- Application ensures created_by is set correctly
 CREATE POLICY "buddy_groups_insert_authenticated" ON public.buddy_groups FOR INSERT
-  TO authenticated
-  WITH CHECK (true);
+  WITH CHECK (auth.uid() IS NOT NULL);
 
--- Also allow UPDATE for group management
-DROP POLICY IF EXISTS "buddy_groups_update_own" ON public.buddy_groups;
+-- Allow UPDATE for group management
 CREATE POLICY "buddy_groups_update_own" ON public.buddy_groups FOR UPDATE
-  TO authenticated
-  USING (created_by = auth.uid());
+  USING (auth.uid() IS NOT NULL);
 
+COMMENT ON POLICY "buddy_groups_select_authenticated" ON public.buddy_groups 
+IS 'Allow authenticated users to view active groups';
 COMMENT ON POLICY "buddy_groups_insert_authenticated" ON public.buddy_groups 
 IS 'Allow authenticated users to create groups';
+COMMENT ON POLICY "buddy_groups_update_own" ON public.buddy_groups 
+IS 'Allow authenticated users to update groups';
 
