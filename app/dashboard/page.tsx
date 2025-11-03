@@ -1,9 +1,13 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
+import { requireOnboarding } from "@/lib/onboarding-check"
 
 export default async function DashboardPage() {
-  const displayName = "Friend"
+  // Enforce onboarding completion
+  const { user } = await requireOnboarding()
+  
+  const displayName = user.user_metadata?.display_name || "Friend"
 
   return (
     <main className="min-h-svh bg-background">

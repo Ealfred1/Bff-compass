@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface LonelinessSurvey {
   [key: number]: number
@@ -34,6 +34,48 @@ export default function LonelinessSurveyPage() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const supabase = createClient()
+
+  // Check if user is authenticated and if they've already completed this survey
+  useEffect(() => {
+    const checkOnboarding = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) {
+          router.push("/auth/login")
+          return
+        }
+
+        // Check if loneliness assessment already exists
+        const { data: lonelinessData } = await supabase
+          .from("loneliness_assessments")
+          .select("id")
+          .eq("user_id", user.id)
+          .limit(1)
+          .single()
+
+        // If exists, redirect to leisure page or dashboard
+        if (lonelinessData) {
+          // Check if leisure also exists
+          const { data: leisureData } = await supabase
+            .from("leisure_assessments")
+            .select("id")
+            .eq("user_id", user.id)
+            .limit(1)
+            .single()
+
+          if (leisureData) {
+            router.push("/dashboard")
+          } else {
+            router.push("/onboarding/leisure")
+          }
+        }
+      } catch (err) {
+        console.error("Onboarding check error:", err)
+      }
+    }
+
+    checkOnboarding()
+  }, [router, supabase])
 
   const handleResponse = (questionIndex: number, value: number) => {
     setResponses((prev) => ({
