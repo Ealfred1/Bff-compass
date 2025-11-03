@@ -22,6 +22,7 @@ Run the following SQL scripts in your Supabase SQL Editor **in order**:
 2. scripts/005_seed_guidance_content.sql   # Seeds guidance content & events
 3. scripts/006_helper_functions.sql        # Helper functions & triggers
 4. scripts/007_auto_create_profiles.sql    # Auto-create profiles on signup
+5. scripts/008_fix_rls_recursion.sql       # Fix RLS infinite recursion
 ```
 
 **What these scripts do:**
@@ -29,6 +30,7 @@ Run the following SQL scripts in your Supabase SQL Editor **in order**:
 - **005**: Seeds 20+ guidance messages/videos and 5 sample events
 - **006**: Creates SQL functions for AI matching, badge awarding, and helper queries + sets up triggers
 - **007**: Creates trigger to auto-create profile when user signs up (fixes foreign key errors)
+- **008**: Fixes RLS infinite recursion error in buddy_group_members policy
 
 ### 2. Environment Variables
 
