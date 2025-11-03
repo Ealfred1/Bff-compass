@@ -16,17 +16,19 @@ export async function POST(request: Request) {
     }
 
     // Check if user is already in a group
-    const { data: existingMembership } = await supabase
+    const { data: existingMemberships } = await supabase
       .from("buddy_group_members")
-      .select("group_id, buddy_groups(*)")
+      .select(`
+        group_id,
+        buddy_groups!inner(*)
+      `)
       .eq("user_id", user.id)
       .eq("buddy_groups.status", "active")
-      .single()
 
-    if (existingMembership) {
+    if (existingMemberships && existingMemberships.length > 0) {
       return NextResponse.json({
         success: true,
-        group: existingMembership.buddy_groups,
+        group: existingMemberships[0].buddy_groups,
         message: "Already in a group",
       })
     }
