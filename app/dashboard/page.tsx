@@ -36,6 +36,24 @@ export default async function DashboardPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="border-border border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+              <CardHeader>
+                <CardTitle className="font-poppins flex items-center gap-2">
+                  <span>🤖</span> AI Assistant
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4 font-poppins">
+                  Ask about events, connections, badges, and your buddy group
+                </p>
+                <Link href="/dashboard/chat">
+                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary font-poppins">
+                    Chat Now
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
             <Card className="border-border">
               <CardHeader>
                 <CardTitle className="font-poppins">My Buddy Group</CardTitle>
