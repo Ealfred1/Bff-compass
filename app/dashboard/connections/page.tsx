@@ -4,32 +4,72 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
+import { Users, MessageCircle, Sparkles } from "lucide-react"
 
-interface Connection {
+interface BuddyGroupMember {
   id: string
-  user1_id: string
-  user2_id: string
-  status: string
-  other_user: {
+  user_id: string
+  role: string
+  profiles: {
     id: string
     display_name: string
     username: string
     bio: string | null
+    avatar_url: string | null
   }
 }
 
+interface SimilarUser {
+  id: string
+  display_name: string
+  username: string
+  bio: string | null
+  avatar_url: string | null
+  compatibility_score: number
+  loneliness_category?: string
+  leisure_categories?: string[]
+}
+
+function getInitials(name: string): string {
+  if (!name) return "?"
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2)
+}
+
+function getAvatarColor(name: string): string {
+  const colors = [
+    "bg-blue-500",
+    "bg-green-500",
+    "bg-purple-500",
+    "bg-pink-500",
+    "bg-indigo-500",
+    "bg-yellow-500",
+    "bg-red-500",
+    "bg-teal-500",
+  ]
+  const index = name.charCodeAt(0) % colors.length
+  return colors[index]
+}
+
 export default function ConnectionsPage() {
-  const [connections, setConnections] = useState<Connection[]>([])
+  const [buddyGroupMembers, setBuddyGroupMembers] = useState<BuddyGroupMember[]>([])
+  const [similarUsers, setSimilarUsers] = useState<SimilarUser[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [groupId, setGroupId] = useState<string | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
-    loadConnections()
+    loadData()
   }, [])
 
-  const loadConnections = async () => {
+  const loadData = async () => {
     setIsLoading(true)
     setError(null)
 
@@ -39,44 +79,22 @@ export default function ConnectionsPage() {
       } = await supabase.auth.getUser()
       if (!user) throw new Error("Not authenticated")
 
-      const { data: connectionsData, error: connectionsError } = await supabase
-        .from("connections")
-        .select("id, user1_id, user2_id, status")
-
-      if (connectionsError) throw connectionsError
-
-      if (!connectionsData || connectionsData.length === 0) {
-        setConnections([])
-        return
-      }
-
-      // Get the IDs of other users
-      const otherUserIds = connectionsData
-        .map((conn) => (conn.user1_id === user.id ? conn.user2_id : conn.user1_id))
-        .filter(Boolean)
-
-      if (otherUserIds.length === 0) {
-        setConnections([])
-        return
-      }
-
-      const { data: profiles, error: profilesError } = await supabase
-        .from("profiles")
-        .select("id, display_name, username, bio")
-        .in("id", otherUserIds)
-
-      if (profilesError) throw profilesError
-
-      const enrichedConnections: Connection[] = connectionsData.map((conn) => {
-        const otherUserId = conn.user1_id === user.id ? conn.user2_id : conn.user1_id
-        const otherUser = profiles?.find((p) => p.id === otherUserId)
-        return {
-          ...conn,
-          other_user: otherUser || { id: otherUserId, display_name: "User", username: "unknown", bio: null },
+      // Load buddy group members (current connections)
+      const groupResponse = await fetch("/api/buddy-groups/my-group")
+      if (groupResponse.ok) {
+        const groupData = await groupResponse.json()
+        if (groupData.group && groupData.members) {
+          setGroupId(groupData.group.id)
+          setBuddyGroupMembers(groupData.members)
         }
-      })
+      }
 
-      setConnections(enrichedConnections)
+      // Load similar users (discovery)
+      const similarResponse = await fetch("/api/users/similar")
+      if (similarResponse.ok) {
+        const similarData = await similarResponse.json()
+        setSimilarUsers(similarData.users || [])
+      }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Failed to load connections")
     } finally {
@@ -101,7 +119,7 @@ export default function ConnectionsPage() {
       </header>
 
       <section className="py-12 px-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto space-y-8">
           {isLoading ? (
             <Card className="border-border">
               <CardContent className="py-12 text-center">
@@ -114,46 +132,188 @@ export default function ConnectionsPage() {
                 <p className="text-destructive font-medium">{error}</p>
               </CardContent>
             </Card>
-          ) : connections.length === 0 ? (
-            <Card className="border-border">
-              <CardContent className="py-12 text-center">
-                <p className="text-muted-foreground mb-4">No connections yet</p>
-                <p className="text-sm text-muted-foreground mb-6">
-                  Start connecting with people who share your interests
-                </p>
-                <Link href="/dashboard/matches">
-                  <Button className="bg-primary text-primary-foreground hover:bg-primary/90 border border-primary font-medium">
-                    Find Buddies
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {connections.map((connection) => (
-                <Card key={connection.id} className="border-border">
-                  <CardHeader>
-                    <CardTitle>{connection.other_user.display_name}</CardTitle>
-                    <CardDescription>@{connection.other_user.username}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    {connection.other_user.bio && (
-                      <p className="text-sm text-muted-foreground mb-4">{connection.other_user.bio}</p>
-                    )}
-                    <div className="flex gap-2">
-                      <Link href={`/dashboard/messages/${connection.id}`} className="flex-1">
-                        <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary font-medium">
-                          Message
+            <>
+              {/* Current Buddy Group Members */}
+              {buddyGroupMembers.length > 0 && (
+                <div>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Users className="h-5 w-5 text-primary" />
+                    <h2 className="text-xl font-bold text-foreground">My Buddy Group</h2>
+                    <Badge variant="secondary" className="gap-1">
+                      <Sparkles className="h-3 w-3" />
+                      {buddyGroupMembers.length} {buddyGroupMembers.length === 1 ? "member" : "members"}
+                    </Badge>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {buddyGroupMembers.map((member) => {
+                      const profile = member.profiles
+                      const initials = getInitials(profile.display_name)
+                      const avatarColor = getAvatarColor(profile.display_name)
+                      return (
+                        <Card key={member.id} className="border-border hover:border-primary/50 transition-colors">
+                          <CardHeader>
+                            <div className="flex items-center gap-3">
+                              {profile.avatar_url ? (
+                                <img
+                                  src={profile.avatar_url}
+                                  alt={profile.display_name}
+                                  className="w-12 h-12 rounded-full object-cover border-2 border-border"
+                                />
+                              ) : (
+                                <div
+                                  className={`w-12 h-12 rounded-full ${avatarColor} flex items-center justify-center text-white font-semibold border-2 border-border`}
+                                >
+                                  {initials}
+                                </div>
+                              )}
+                              <div className="flex-1">
+                                <CardTitle className="text-base">{profile.display_name}</CardTitle>
+                                <CardDescription>@{profile.username}</CardDescription>
+                              </div>
+                              {member.role === "creator" && (
+                                <Badge variant="default" className="text-xs">Creator</Badge>
+                              )}
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            {profile.bio && (
+                              <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{profile.bio}</p>
+                            )}
+                            {groupId && (
+                              <Link href={`/dashboard/messages/${groupId}`} className="block">
+                                <Button
+                                  variant="outline"
+                                  className="w-full border-border hover:bg-muted font-medium"
+                                  size="sm"
+                                >
+                                  <MessageCircle className="mr-2 h-4 w-4" />
+                                  Group Chat
+                                </Button>
+                              </Link>
+                            )}
+                          </CardContent>
+                        </Card>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Similar Users (Discovery) */}
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-5 w-5 text-primary" />
+                    <h2 className="text-xl font-bold text-foreground">People with Similar Interests</h2>
+                  </div>
+                  <Link href="/dashboard/matches">
+                    <Button variant="outline" size="sm" className="border-border hover:bg-muted">
+                      Find More Buddies
+                    </Button>
+                  </Link>
+                </div>
+                {similarUsers.length === 0 ? (
+                  <Card className="border-border">
+                    <CardContent className="py-12 text-center">
+                      <p className="text-muted-foreground mb-4">No similar users found</p>
+                      <p className="text-sm text-muted-foreground mb-6">
+                        Complete your assessments to find people with similar interests
+                      </p>
+                      <Link href="/dashboard/matches">
+                        <Button className="bg-primary text-primary-foreground hover:bg-primary/90 border border-primary font-medium">
+                          Find My Buddy Group
                         </Button>
                       </Link>
-                      <Button variant="outline" className="border-border hover:bg-muted font-medium bg-transparent">
-                        View Profile
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {similarUsers.map((user) => {
+                      const initials = getInitials(user.display_name)
+                      const avatarColor = getAvatarColor(user.display_name)
+                      return (
+                        <Card key={user.id} className="border-border hover:border-primary/50 transition-colors">
+                          <CardHeader>
+                            <div className="flex items-center gap-3">
+                              {user.avatar_url ? (
+                                <img
+                                  src={user.avatar_url}
+                                  alt={user.display_name}
+                                  className="w-12 h-12 rounded-full object-cover border-2 border-border"
+                                />
+                              ) : (
+                                <div
+                                  className={`w-12 h-12 rounded-full ${avatarColor} flex items-center justify-center text-white font-semibold border-2 border-border`}
+                                >
+                                  {initials}
+                                </div>
+                              )}
+                              <div className="flex-1">
+                                <CardTitle className="text-base">{user.display_name}</CardTitle>
+                                <CardDescription>@{user.username}</CardDescription>
+                              </div>
+                              {user.compatibility_score > 0 && (
+                                <Badge variant="secondary" className="text-xs">
+                                  {user.compatibility_score}% match
+                                </Badge>
+                              )}
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            {user.bio && (
+                              <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{user.bio}</p>
+                            )}
+                            {user.leisure_categories && user.leisure_categories.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mb-3">
+                                {user.leisure_categories.slice(0, 3).map((cat, idx) => (
+                                  <Badge key={idx} variant="outline" className="text-xs">
+                                    {cat}
+                                  </Badge>
+                                ))}
+                              </div>
+                            )}
+                            {user.loneliness_category && (
+                              <div className="mb-3">
+                                <Badge variant="outline" className="text-xs">
+                                  {user.loneliness_category} Wellness
+                                </Badge>
+                              </div>
+                            )}
+                            <Link href="/dashboard/matches">
+                              <Button
+                                variant="outline"
+                                className="w-full border-border hover:bg-muted font-medium"
+                                size="sm"
+                              >
+                                Connect
+                              </Button>
+                            </Link>
+                          </CardContent>
+                        </Card>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* Empty State */}
+              {buddyGroupMembers.length === 0 && similarUsers.length === 0 && (
+                <Card className="border-border">
+                  <CardContent className="py-12 text-center">
+                    <p className="text-muted-foreground mb-4">No connections yet</p>
+                    <p className="text-sm text-muted-foreground mb-6">
+                      Start connecting with people who share your interests
+                    </p>
+                    <Link href="/dashboard/matches">
+                      <Button className="bg-primary text-primary-foreground hover:bg-primary/90 border border-primary font-medium">
+                        Find My Buddy Group
                       </Button>
-                    </div>
+                    </Link>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </div>
       </section>
