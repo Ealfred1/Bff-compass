@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 import { useAuth } from "@/contexts/auth-context"
-import { Calendar, MapPin, ExternalLink, CheckCircle, Users, Clock, Share2 } from "lucide-react"
+import { Calendar, MapPin, CheckCircle, Users, Clock, Share2 } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 interface Event {
@@ -142,7 +142,7 @@ export default function EventsPage() {
 
   return (
     <div 
-      className="min-h-screen relative overflow-hidden"
+      className="min-h-screen relative overflow-hidden bg-[#F9FAFB]"
       style={{
         backgroundImage: "url('/istockphoto-2105100634-612x612 (1).jpg')",
         backgroundSize: "cover",
@@ -150,34 +150,34 @@ export default function EventsPage() {
         backgroundAttachment: "fixed"
       }}
     >
-      {/* White overlay for glass effect */}
-      <div className="absolute inset-0 bg-white/90"></div>
+      {/* Background overlay */}
+      <div className="absolute inset-0 bg-[#F9FAFB]/95"></div>
       
       {/* Floating elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-primary/20 rounded-full blur-xl animate-pulse"></div>
-      <div className="absolute top-40 right-20 w-16 h-16 bg-primary/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+      <div className="absolute top-20 left-10 w-20 h-20 bg-[#0D9488]/10 rounded-full blur-xl animate-pulse"></div>
+      <div className="absolute top-40 right-20 w-16 h-16 bg-[#0D9488]/10 rounded-full blur-xl animate-pulse" style={{animationDelay: '1000ms'}}></div>
       
       {/* Content */}
       <div className="relative z-10 lg:ml-64 px-4 py-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-neutral-900 font-grotesk mb-2">
-              Personalized Events for You! 🎉
+            <h1 className="text-[32px] font-bold text-[#111827] font-grotesk leading-[1.2] mb-2">
+              Personalized Events for You!
             </h1>
-            <p className="text-xl text-neutral-600 font-poppins">
+            <p className="text-[14px] text-[#6B7280] font-poppins leading-[1.5]">
               Events curated based on your interests and social preferences
             </p>
           </div>
 
           {/* Survey Re-trigger Alert */}
           {shouldRetakeSurvey && (
-            <Alert className="mb-6 border-primary/30 bg-primary/10 shadow-lg">
-              <CheckCircle className="h-4 w-4 text-primary" />
-              <AlertTitle className="font-grotesk">Time to Update Your Profile!</AlertTitle>
-              <AlertDescription className="font-poppins">
+            <Alert className="mb-6 border-[#0D9488]/30 bg-[rgba(13,148,136,0.05)] shadow-sm">
+              <CheckCircle className="h-4 w-4 text-[#0D9488]" />
+              <AlertTitle className="font-grotesk text-[#111827]">Time to Update Your Profile!</AlertTitle>
+              <AlertDescription className="font-poppins text-[#374151]">
                 You've attended {userEventCount} events! Take the surveys again to update your buddy matches and guidance.
                 <div className="mt-3">
-                  <Button asChild variant="default" size="sm" className="font-poppins shadow-md">
+                  <Button asChild variant="default" size="sm">
                     <Link href="/onboarding/loneliness">Retake Surveys</Link>
                   </Button>
                 </div>
@@ -186,30 +186,30 @@ export default function EventsPage() {
           )}
 
           {/* Event Stats */}
-          <Card className="mb-6 border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 shadow-lg">
-            <CardContent className="py-4">
+          <Card className="mb-6 border border-[#E5E7EB] bg-white rounded-lg shadow-sm">
+            <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-primary mb-1 font-poppins font-medium">Events You've Attended</p>
+                  <p className="text-sm text-[#6B7280] mb-1 font-poppins font-medium">Events You've Attended</p>
                   <div className="flex items-baseline gap-2">
-                    <p className="text-3xl font-bold text-primary font-grotesk">{userEventCount}</p>
-                    <p className="text-sm text-primary font-poppins">/ {events.length} total events</p>
+                    <p className="text-3xl font-bold text-[#111827] font-grotesk">{userEventCount}</p>
+                    <p className="text-sm text-[#6B7280] font-poppins">/ {events.length} total events</p>
                   </div>
                   {userEventCount < 20 && (
-                    <p className="text-xs text-primary mt-1 font-poppins">
+                    <p className="text-xs text-[#6B7280] mt-1 font-poppins">
                       {20 - userEventCount} more events until survey update
                     </p>
                   )}
                 </div>
-                <Calendar className="h-10 w-10 text-primary" />
+                <Calendar className="h-10 w-10 text-[#0D9488]" />
               </div>
             </CardContent>
           </Card>
 
           {isLoading ? (
             <div className="text-center py-12">
-              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent shadow-lg"></div>
-              <p className="mt-4 text-neutral-600 font-poppins">Loading events...</p>
+              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-[#0D9488] border-t-transparent"></div>
+              <p className="mt-4 text-[#6B7280] font-poppins">Loading events...</p>
             </div>
           ) : events.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -220,42 +220,42 @@ export default function EventsPage() {
                 return (
                   <Card
                     key={event.id}
-                    className={`border-2 border-primary/20 bg-white/90 backdrop-blur-sm rounded-2xl hover:border-primary/40 transition-all shadow-lg hover:shadow-xl ${
+                    className={`border border-[#E5E7EB] bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 ${
                       isPast ? "opacity-60" : ""
                     }`}
                   >
                     <Link href={`/dashboard/events/${event.id}`}>
-                      <CardHeader>
+                      <CardHeader className="p-6 pb-4">
                         <div className="flex items-start justify-between mb-2">
-                          <CardTitle className="text-lg font-grotesk font-semibold">{event.title}</CardTitle>
+                          <CardTitle className="text-base font-semibold text-[#111827] font-grotesk leading-[1.2]">{event.title}</CardTitle>
                           {event.isAttending && (
-                            <Badge className="bg-primary text-white shadow-md">
+                            <Badge className="bg-[#0D9488] text-white border-0 shadow-sm">
                               <CheckCircle className="h-3 w-3 mr-1" />
                               Attending
                             </Badge>
                           )}
                         </div>
-                        <CardDescription className="text-neutral-600 font-poppins text-sm">
+                        <CardDescription className="text-sm text-[#6B7280] font-poppins leading-[1.5]">
                           {event.description}
                         </CardDescription>
                       </CardHeader>
                     </Link>
-                    <CardContent>
+                    <CardContent className="p-6 pt-0">
                       <div className="space-y-2 mb-4">
                         {eventDate && (
-                          <div className="flex items-center gap-2 text-sm text-neutral-700">
-                            <Clock className="w-4 h-4 text-primary" />
+                          <div className="flex items-center gap-2 text-sm text-[#374151]">
+                            <Clock className="w-4 h-4 text-[#0D9488]" />
                             {eventDate.toLocaleDateString()} at {eventDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                           </div>
                         )}
                         {event.location && (
-                          <div className="flex items-center gap-2 text-sm text-neutral-700">
-                            <MapPin className="w-4 h-4 text-primary" />
+                          <div className="flex items-center gap-2 text-sm text-[#374151]">
+                            <MapPin className="w-4 h-4 text-[#0D9488]" />
                             {event.location}
                           </div>
                         )}
-                        <div className="flex items-center gap-2 text-sm text-neutral-700">
-                          <Users className="w-4 h-4 text-primary" />
+                        <div className="flex items-center gap-2 text-sm text-[#374151]">
+                          <Users className="w-4 h-4 text-[#0D9488]" />
                           {event.attendeeCount} {event.attendeeCount === 1 ? "person" : "people"} attending
                         </div>
                       </div>
@@ -267,11 +267,7 @@ export default function EventsPage() {
                             e.preventDefault()
                             toggleAttendance(event.id)
                           }}
-                          className={`flex-1 font-poppins shadow-md hover:shadow-lg ${
-                            event.isAttending 
-                              ? "border-primary/30 hover:bg-primary/5" 
-                              : "bg-primary hover:bg-primary/90 text-white"
-                          }`}
+                          className="flex-1 font-poppins"
                         >
                           <CheckCircle className="mr-2 h-4 w-4" />
                           {event.isAttending ? "Remove" : "Attend"}
@@ -282,7 +278,7 @@ export default function EventsPage() {
                               variant="outline"
                               asChild
                               size="sm"
-                              className="font-poppins border-primary/30 hover:bg-primary/5 shadow-sm hover:shadow-md"
+                              className="font-poppins"
                             >
                               <a href={googleUrl(event)} target="_blank" rel="noopener noreferrer">
                                 <Calendar className="w-4 h-4" />
@@ -295,7 +291,7 @@ export default function EventsPage() {
                                 e.preventDefault()
                                 navigator.share?.({ title: event.title, text: event.description || "", url: event.event_url || "" })
                               }}
-                              className="font-poppins border-primary/30 hover:bg-primary/5 shadow-sm hover:shadow-md"
+                              className="font-poppins"
                             >
                               <Share2 className="w-4 h-4" />
                             </Button>
@@ -308,11 +304,11 @@ export default function EventsPage() {
               })}
             </div>
           ) : (
-            <Card className="border-primary/20 bg-white/90 backdrop-blur-sm shadow-lg">
+            <Card className="border border-[#E5E7EB] bg-white rounded-lg shadow-sm">
               <CardContent className="py-12 text-center">
-                <Calendar className="h-12 w-12 text-primary mx-auto mb-4" />
-                <p className="text-neutral-600 font-poppins">No events available at the moment.</p>
-                <p className="text-sm text-neutral-500 mt-2 font-poppins">Check back soon for upcoming activities!</p>
+                <Calendar className="h-12 w-12 text-[#0D9488] mx-auto mb-4" />
+                <p className="text-[#374151] font-poppins">No events available at the moment.</p>
+                <p className="text-sm text-[#6B7280] mt-2 font-poppins">Check back soon for upcoming activities!</p>
               </CardContent>
             </Card>
           )}
