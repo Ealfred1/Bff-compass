@@ -1,161 +1,409 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import Link from "next/link"
-import { requireOnboarding } from "@/lib/onboarding-check"
+"use client"
 
-export default async function DashboardPage() {
-  // Enforce onboarding completion
-  const { user } = await requireOnboarding()
-  
-  const displayName = user.user_metadata?.display_name || "Friend"
+import { useContext, useState, useEffect } from "react"
+import Link from "next/link"
+import { useAuth } from "@/contexts/auth-context"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  MessageCircle,
+  Calendar,
+  Users,
+  ArrowRight,
+  Clock,
+  MapPin,
+  Bot,
+  User,
+  School,
+  Mail,
+  Heart,
+  Palette,
+  Target,
+  Award,
+  Shield,
+  Play,
+  BookOpen,
+  Video,
+} from "lucide-react"
+
+interface UserStats {
+  eventsJoined: number
+  studyGroups: number
+  messages: number
+  badges: number
+  buddyGroupsCreated: number
+  bookmarks: number
+  videoViews: number
+  totalConnections: number
+  totalEngagement: number
+  progressPercentage: number
+  lonelinessScore: number
+  lonelinessCategory: string
+  surveyCompleted: boolean
+  lastUpdated: string
+}
+
+function DashboardContent() {
+  const { user, profile } = useAuth()
+  const [userStats, setUserStats] = useState<UserStats | null>(null)
+  const [statsLoading, setStatsLoading] = useState(true)
+
+  // Fetch user statistics
+  useEffect(() => {
+    const fetchUserStats = async () => {
+      if (!user) return
+      
+      try {
+        setStatsLoading(true)
+        const response = await fetch('/api/user/stats')
+        if (response.ok) {
+          const stats = await response.json()
+          setUserStats(stats)
+        } else {
+          console.error('Failed to fetch user stats:', response.status)
+          // Set fallback stats if API fails
+          setUserStats({
+            eventsJoined: 0,
+            studyGroups: 0,
+            messages: 0,
+            badges: 0,
+            buddyGroupsCreated: 0,
+            bookmarks: 0,
+            videoViews: 0,
+            totalConnections: 0,
+            totalEngagement: 0,
+            progressPercentage: 0,
+            lonelinessScore: 0,
+            lonelinessCategory: 'Unknown',
+            surveyCompleted: false,
+            lastUpdated: new Date().toISOString()
+          })
+        }
+      } catch (error) {
+        console.error('Error fetching user stats:', error)
+      } finally {
+        setStatsLoading(false)
+      }
+    }
+
+    fetchUserStats()
+  }, [user])
+
+  const dashboardFeatures = [
+    {
+      icon: Calendar,
+      title: "Events & Groups",
+      description: "Discover amazing campus events and join study groups! 🎉",
+      href: "/dashboard/events",
+      color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
+    },
+    {
+      icon: Users,
+      title: "Study Groups",
+      description: "Find your perfect study squad and ace those exams! 📚",
+      href: "/dashboard/matches",
+      color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
+    },
+    {
+      icon: MessageCircle,
+      title: "Messages",
+      description: "Chat with your new friends and stay connected! 💬",
+      href: "/dashboard/connections",
+      color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
+    },
+    {
+      icon: Bot,
+      title: "AI Assistant",
+      description: "Your personal AI buddy for everything! 🤖✨",
+      href: "/dashboard/chat",
+      color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
+    },
+  ]
+
+  const moreSectionItems = [
+    {
+      icon: BookOpen,
+      title: "Guidance & Tips",
+      description: "Daily motivation & wellness 💪",
+      href: "/dashboard/guidance",
+      color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
+    },
+    {
+      icon: Award,
+      title: "My Badges",
+      description: "Show off your achievements 🏆",
+      href: "/dashboard/badges",
+      color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
+    },
+    {
+      icon: Shield,
+      title: "Resources",
+      description: "Help & support when you need it 🆘",
+      href: "/dashboard/resources",
+      color: "bg-gradient-to-br from-red-100 to-red-200 text-red-700",
+    },
+    {
+      icon: User,
+      title: "Profile",
+      description: "Update your info & settings ⚙️",
+      href: "/dashboard/profile",
+      color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
+    },
+  ]
+
+  const recentActivity = [
+    {
+      type: "event",
+      title: "Study Group Session",
+      time: "2 hours ago",
+      icon: Users,
+      color: "bg-primary/10 text-primary",
+    },
+    {
+      type: "survey",
+      title: "Completed Daily Loneliness Survey",
+      time: "4 hours ago",
+      icon: Heart,
+      color: "bg-primary/10 text-primary",
+    },
+    {
+      type: "video",
+      title: "Watched Wellness Video",
+      time: "1 day ago",
+      icon: Play,
+      color: "bg-primary/10 text-primary",
+    },
+  ]
 
   return (
-    <main className="min-h-svh bg-gradient-to-br from-neutral-50 via-white to-primary/5">
-      <header className="border-b border-neutral-200/50 bg-white/80 backdrop-blur-sm py-4 px-6 shadow-sm">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-neutral-900 font-grotesk">BFF COMPASS</h1>
-          <form action="/api/auth/logout" method="POST">
-            <Button
-              type="submit"
-              variant="outline"
-              className="border-neutral-200 hover:bg-neutral-50 font-medium bg-white font-poppins"
-            >
-              Sign Out
-            </Button>
-          </form>
-        </div>
-      </header>
-
-      <section className="py-12 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold text-neutral-900 mb-2 font-grotesk">Welcome, {displayName}! 👋</h2>
-            <p className="text-neutral-600 font-poppins">
-              Your journey to finding your friend compass starts here
+    <div 
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        backgroundImage: "url('/istockphoto-2105100634-612x612 (1).jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed"
+      }}
+    >
+      {/* White overlay for glass effect */}
+      <div className="absolute inset-0 bg-white/90"></div>
+      
+      {/* Floating elements for Gen Z vibes */}
+      <div className="absolute top-20 left-10 w-20 h-20 bg-primary/20 rounded-full blur-xl animate-pulse"></div>
+      <div className="absolute top-40 right-20 w-16 h-16 bg-primary/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+      <div className="absolute bottom-40 left-1/4 w-24 h-24 bg-primary/20 rounded-full blur-xl animate-pulse delay-2000"></div>
+      
+      {/* Content */}
+      <div className="relative z-10 lg:ml-64 px-4 py-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center">
+                <span className="text-white font-bold text-2xl">BC</span>
+              </div>
+              <div className="absolute -top-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                <span className="text-white text-xs">✨</span>
+              </div>
+            </div>
+          <div>
+              <h1 className="text-2xl font-bold text-neutral-900 font-grotesk">
+                Hey {profile?.display_name || user?.email?.split('@')[0] || 'Student'}! 👋
+            </h1>
+              <p className="text-neutral-600 font-poppins text-sm">
+                Ready to connect and thrive today? 🚀
             </p>
+            </div>
           </div>
+          <div className="flex items-center space-x-3">
+            <div className="text-right">
+              <p className="text-sm font-semibold text-neutral-900">Your Progress</p>
+              <div className="flex items-center space-x-2">
+                <div className="w-20 h-2 bg-neutral-200 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-gradient-to-r from-primary to-primary/80 rounded-full transition-all duration-500"
+                    style={{ 
+                      width: statsLoading ? '0%' : `${userStats?.progressPercentage || 0}%` 
+                    }}
+                  ></div>
+                </div>
+                <span className="text-xs text-neutral-600">
+                  {statsLoading ? "..." : `${userStats?.progressPercentage || 0}%`}
+                </span>
+              </div>
+            </div>
+            <Avatar className="w-12 h-12 border-2 border-primary/20">
+              <AvatarImage src={profile?.avatar_url || undefined} alt={profile?.display_name || 'User'} />
+              <AvatarFallback className="bg-primary text-white font-bold">
+                {profile?.display_name?.split(' ').map((n: string) => n[0]).join('') || 'U'}
+              </AvatarFallback>
+            </Avatar>
+          </div>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="font-grotesk flex items-center gap-2 text-primary">
-                  <span className="text-2xl">🤖</span> AI Assistant
+        {/* Gen Z Style Compact Dashboard */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          {/* Left Column - Quick Actions */}
+          <div className="lg:col-span-2">
+            <div className="grid grid-cols-2 gap-4 mb-6">
+          {dashboardFeatures.slice(0, 4).map((feature, index) => (
+                <Card key={index} className="group bg-white/90 backdrop-blur-sm rounded-2xl hover:bg-white/95 transition-all duration-200 border-0">
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className={`w-10 h-10 ${feature.color} rounded-xl flex items-center justify-center`}>
+                        <feature.icon className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-bold text-neutral-900 font-grotesk text-sm">{feature.title}</h3>
+                        <p className="text-xs text-neutral-600 font-poppins line-clamp-2">{feature.description}</p>
+                      </div>
+                </div>
+                    <Button asChild className="w-full justify-center p-3 h-10 font-semibold bg-transparent hover:text-white hover:bg-primary text-sm rounded-xl">
+                  <Link href={feature.href}>
+                        Go <ArrowRight className="w-4 h-4 ml-1" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+            {/* Personalized Events & Study Groups */}
+            <Card className="bg-white/90 backdrop-blur-sm rounded-2xl border-0">
+              <CardHeader className="p-4 pb-2">
+                <CardTitle className="flex items-center space-x-2 font-grotesk text-lg">
+                  <Calendar className="w-5 h-5 text-primary" />
+                  <span>Top Events for You</span>
+                  <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">AI Curated</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-sm text-neutral-700 mb-4 font-poppins">
-                  Ask about events, connections, badges, and your buddy group
-                </p>
-                <Link href="/dashboard/chat">
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
-                    Chat Now
+              <CardContent className="p-4 pt-2">
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3 p-3 bg-neutral-50 rounded-xl">
+                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <Calendar className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="h-4 bg-neutral-200 rounded w-3/4 mb-2"></div>
+                      <div className="h-3 bg-neutral-200 rounded w-1/2"></div>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3 p-3 bg-neutral-50 rounded-xl">
+                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <Users className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="h-4 bg-neutral-200 rounded w-2/3 mb-2"></div>
+                      <div className="h-3 bg-neutral-200 rounded w-1/3"></div>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3 p-3 bg-neutral-50 rounded-xl">
+                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <MessageCircle className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="h-4 bg-neutral-200 rounded w-4/5 mb-2"></div>
+                      <div className="h-3 bg-neutral-200 rounded w-2/5"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-4 text-center">
+                  <Button asChild variant="outline" size="sm">
+                    <Link href="/dashboard/events">View All Events</Link>
                   </Button>
-                </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right Column - Stats & Quick Access */}
+                <div className="space-y-4">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-2 gap-3">
+              <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold">
+                    {statsLoading ? "..." : (userStats?.eventsJoined || 0)}
+                  </div>
+                  <div className="text-xs opacity-90">Events Joined</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold">
+                    {statsLoading ? "..." : (userStats?.studyGroups || 0)}
+                  </div>
+                  <div className="text-xs opacity-90">Study Groups</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold">
+                    {statsLoading ? "..." : (userStats?.messages || 0)}
+                  </div>
+                  <div className="text-xs opacity-90">Messages</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold">
+                    {statsLoading ? "..." : (userStats?.badges || 0)}
+                  </div>
+                  <div className="text-xs opacity-90">Badges</div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Quick Access */}
+            <Card className="bg-white/90 backdrop-blur-sm rounded-2xl border-0">
+              <CardHeader className="p-4 pb-2">
+                <CardTitle className="font-grotesk text-lg">Quick Access</CardTitle>
+              </CardHeader>
+              <CardContent className="p-4 pt-2">
+                <div className="space-y-2">
+                  {moreSectionItems.slice(0, 4).map((item, index) => (
+                    <Link key={index} href={item.href}>
+                      <div className="flex items-center space-x-3 p-2 rounded-xl hover:bg-primary/5 transition-colors cursor-pointer">
+                        <div className={`w-8 h-8 ${item.color} rounded-lg flex items-center justify-center`}>
+                          <item.icon className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-medium text-neutral-900 text-sm">{item.title}</h4>
+                          <p className="text-xs text-neutral-600">{item.description}</p>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-neutral-400" />
+                      </div>
+                    </Link>
+                  ))}
+                </div>
               </CardContent>
             </Card>
 
-            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="font-grotesk text-primary">My Buddy Group</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-neutral-700 mb-4 font-poppins">
-                  AI-matched groups of 3-5 people with shared interests
-                </p>
-                <Link href="/dashboard/matches">
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
-                    Find My Group
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="font-grotesk text-primary">My Guidance</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-neutral-700 mb-4 font-poppins">Daily messages & weekly videos for your wellness</p>
-                <Link href="/dashboard/guidance">
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
-                    View Guidance
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="font-grotesk text-primary">Events</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-neutral-700 mb-4 font-poppins">Join in-person activities and earn badges</p>
-                <Link href="/dashboard/events">
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
-                    View Events
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="font-grotesk text-primary">Track Mood</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-neutral-700 mb-4 font-poppins">Monitor your wellbeing journey</p>
-                <Link href="/dashboard/mood">
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
-                    Track Mood
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="font-grotesk text-primary">My Badges</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-neutral-700 mb-4 font-poppins">Earn achievements as you connect</p>
-                <Link href="/dashboard/badges">
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
-                    View Badges
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 bg-gradient-to-br from-red-50 to-red-100/50 shadow-lg hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="font-grotesk text-red-900">Mental Health Resources</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-red-800/80 mb-4 font-poppins">Crisis support & wellness resources</p>
-                <Link href="/dashboard/resources">
-                  <Button className="w-full bg-red-600 hover:bg-red-700 text-white border-0 font-poppins shadow-md">
-                    Get Support
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="font-grotesk text-primary">My Profile</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-neutral-700 mb-4 font-poppins">Manage your account and preferences</p>
-                <Link href="/dashboard/profile">
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
-                    View Profile
-                  </Button>
-                </Link>
+            {/* AI Assistant */}
+            <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0">
+              <CardContent className="p-4 text-center">
+                <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                  <Bot className="w-6 h-6" />
+                </div>
+                <h3 className="font-bold text-lg mb-2">AI Assistant</h3>
+                <p className="text-sm opacity-90 mb-3">Get personalized help and recommendations</p>
+                <Button asChild className="bg-white text-primary hover:bg-primary/10 text-sm px-4 py-2 h-8">
+                  <Link href="/dashboard/chat">Chat Now</Link>
+                </Button>
               </CardContent>
             </Card>
           </div>
         </div>
-      </section>
-    </main>
+
+      </div>
+      
+    </div>
   )
+}
+
+export default function DashboardPage() {
+  return <DashboardContent />
 }

@@ -4,6 +4,8 @@ import { Inter, Poppins, Space_Grotesk } from "next/font/google"
 import "./globals.css"
 import { YouGoodLineButton } from "@/components/you-good-line-button"
 import { Toaster } from "@/components/ui/sonner"
+import { AuthProvider } from "@/contexts/auth-context"
+import { AppHeader } from "@/components/app-header"
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -47,9 +49,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable} ${grotesk.variable}`}>
       <body className="font-poppins antialiased">
-        {children}
-        <YouGoodLineButton />
-        <Toaster />
+        <AuthProvider>
+          <AppHeader />
+          {children}
+          <YouGoodLineButton />
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   )
