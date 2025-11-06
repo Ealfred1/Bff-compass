@@ -229,7 +229,7 @@ export default function ContactPage() {
                   />
                 </div>
                 
-                <Button className="w-full rounded-xl bg-[#0D9488] hover:bg-#0F766E">
+                <Button className="w-full rounded-xl bg-[#0D9488] hover:bg-[#0F766E]">
                   <Send className="w-4 h-4 mr-2" />
                   Send Message
                 </Button>

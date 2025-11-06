@@ -74,7 +74,7 @@ export default function AboutPage() {
       <header className="container mx-auto px-4 py-6">
         <nav className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-#0D9488 to-[#0F766E] rounded-2xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#0D9488] to-[#0F766E] rounded-2xl flex items-center justify-center">
               <span className="text-white font-bold">BC</span>
             </div>
             <span className="font-bold text-neutral-900">BFF-Connect</span>
@@ -91,7 +91,7 @@ export default function AboutPage() {
           <Badge className="mb-4 bg-primary-100 text-primary-700">About Us</Badge>
           <h1 className="text-5xl font-bold text-neutral-900 mb-6">
             Building Bridges Between{" "}
-            <span className="bg-gradient-to-r from-#0D9488 to-[#0F766E] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#0D9488] to-[#0F766E] bg-clip-text text-transparent">
               Students Worldwide
             </span>
           </h1>
@@ -145,7 +145,7 @@ export default function AboutPage() {
                 alt="Students collaborating"
                 className="rounded-2xl shadow-2xl"
               />
-              <div className="absolute -bottom-4 -right-4 w-full h-full bg-gradient-to-br from-#0D9488/20 to-#F97316/20 rounded-2xl blur-xl"></div>
+              <div className="absolute -bottom-4 -right-4 w-full h-full bg-gradient-to-br from-[#0D9488]/20 to-[#F97316]/20 rounded-2xl blur-xl"></div>
             </div>
           </div>
         </div>
@@ -219,7 +219,7 @@ export default function AboutPage() {
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-20">
         <div className="max-w-4xl mx-auto">
-          <div className="relative bg-gradient-to-r from-#0D9488 to-[#0F766E] rounded-3xl p-12 text-center text-white overflow-hidden">
+          <div className="relative bg-gradient-to-r from-[#0D9488] to-[#0F766E] rounded-3xl p-12 text-center text-white overflow-hidden">
             <div className="absolute inset-0 bg-black/10"></div>
             <div className="relative z-10">
               <h2 className="text-3xl lg:text-4xl font-bold mb-4">Ready to be part of our story?</h2>
@@ -258,7 +258,7 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-#0D9488 to-[#0F766E] rounded-2xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-[#0D9488] to-[#0F766E] rounded-2xl flex items-center justify-center">
                   <span className="text-white font-bold">BC</span>
                 </div>
                 <span className="font-bold text-neutral-900">BFF-Connect</span>
