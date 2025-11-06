@@ -150,7 +150,7 @@ export default function LoginPage() {
               <CardDescription className="text-neutral-600">
                 Sign in to your BFF-Connect account and continue your learning journey
               </CardDescription>
-            </CardHeader>
+        </CardHeader>
             <CardContent className="space-y-6">
               <Button
                 variant="outline"
@@ -171,35 +171,35 @@ export default function LoginPage() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="space-y-2">
+            <div className="space-y-2">
                   <Label htmlFor="email" className="text-sm font-medium text-neutral-700">
                     Email Address
-                  </Label>
+              </Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-3.5 h-4 w-4 text-neutral-400" />
-                    <Input
-                      id="email"
-                      type="email"
+              <Input
+                id="email"
+                type="email"
                       placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                       className="pl-10 h-12 rounded-xl border-neutral-200 bg-white/50 backdrop-blur-sm focus:bg-white"
                       required
-                    />
+              />
                   </div>
-                </div>
-                <div className="space-y-2">
+            </div>
+            <div className="space-y-2">
                   <Label htmlFor="password" className="text-sm font-medium text-neutral-700">
-                    Password
-                  </Label>
+                Password
+              </Label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-3.5 h-4 w-4 text-neutral-400" />
-                    <Input
-                      id="password"
+              <Input
+                id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                       className="pl-10 pr-10 h-12 rounded-xl border-neutral-200 bg-white/50 backdrop-blur-sm focus:bg-white"
                       required
                     />
@@ -219,25 +219,25 @@ export default function LoginPage() {
                       Forgot password?
                     </Link>
                   </div>
-                </div>
+            </div>
 
-                <Button
-                  type="submit"
+            <Button
+              type="submit"
                   className="w-full h-12 rounded-xl bg-primary hover:bg-primary/90 shadow-lg text-white"
                   disabled={loading}
-                >
+            >
                   {loading ? "Signing in..." : "Sign in"}
-                </Button>
-              </form>
+            </Button>
+          </form>
 
               <div className="text-center text-sm">
                 <span className="text-neutral-600">Don't have an account? </span>
                 <Link href="/auth/sign-up" className="text-primary hover:text-primary/80 font-medium">
                   Sign up for free
-                </Link>
+            </Link>
               </div>
-            </CardContent>
-          </Card>
+        </CardContent>
+      </Card>
         </div>
       </div>
     </div>

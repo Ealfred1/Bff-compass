@@ -197,10 +197,10 @@ function DashboardContent() {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
                 <span className="text-white font-bold text-2xl">BC</span>
               </div>
-              <div className="absolute -top-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+              <div className="absolute -top-1 -right-1 w-6 h-6 bg-primary rounded-full flex items-center justify-center shadow-md">
                 <span className="text-white text-xs">✨</span>
               </div>
             </div>
@@ -217,9 +217,9 @@ function DashboardContent() {
             <div className="text-right">
               <p className="text-sm font-semibold text-neutral-900">Your Progress</p>
               <div className="flex items-center space-x-2">
-                <div className="w-20 h-2 bg-neutral-200 rounded-full overflow-hidden">
+                <div className="w-20 h-2 bg-neutral-200 rounded-full overflow-hidden shadow-inner">
                   <div 
-                    className="h-full bg-gradient-to-r from-primary to-primary/80 rounded-full transition-all duration-500"
+                    className="h-full bg-gradient-to-r from-primary to-primary/80 rounded-full transition-all duration-500 shadow-sm"
                     style={{ 
                       width: statsLoading ? '0%' : `${userStats?.progressPercentage || 0}%` 
                     }}
@@ -230,7 +230,7 @@ function DashboardContent() {
                 </span>
               </div>
             </div>
-            <Avatar className="w-12 h-12 border-2 border-primary/20">
+            <Avatar className="w-12 h-12 border-2 border-primary/20 shadow-md">
               <AvatarImage src={profile?.avatar_url || undefined} alt={profile?.display_name || 'User'} />
               <AvatarFallback className="bg-primary text-white font-bold">
                 {profile?.display_name?.split(' ').map((n: string) => n[0]).join('') || 'U'}
@@ -245,10 +245,10 @@ function DashboardContent() {
           <div className="lg:col-span-2">
             <div className="grid grid-cols-2 gap-4 mb-6">
           {dashboardFeatures.slice(0, 4).map((feature, index) => (
-                <Card key={index} className="group bg-white/90 backdrop-blur-sm rounded-2xl hover:bg-white/95 transition-all duration-200 border-0">
+                <Card key={index} className="group bg-white/90 backdrop-blur-sm rounded-2xl hover:bg-white/95 transition-all duration-200 border-0 shadow-lg hover:shadow-xl">
                   <CardContent className="p-4">
                     <div className="flex items-center space-x-3 mb-3">
-                      <div className={`w-10 h-10 ${feature.color} rounded-xl flex items-center justify-center`}>
+                      <div className={`w-10 h-10 ${feature.color} rounded-xl flex items-center justify-center shadow-md`}>
                         <feature.icon className="w-5 h-5" />
                       </div>
                       <div className="flex-1">
@@ -256,7 +256,7 @@ function DashboardContent() {
                         <p className="text-xs text-neutral-600 font-poppins line-clamp-2">{feature.description}</p>
                       </div>
                 </div>
-                    <Button asChild className="w-full justify-center p-3 h-10 font-semibold bg-transparent hover:text-white hover:bg-primary text-sm rounded-xl">
+                    <Button asChild className="w-full justify-center p-3 h-10 font-semibold bg-transparent hover:text-white hover:bg-primary text-sm rounded-xl shadow-sm hover:shadow-md transition-all">
                   <Link href={feature.href}>
                         Go <ArrowRight className="w-4 h-4 ml-1" />
                   </Link>
@@ -267,46 +267,46 @@ function DashboardContent() {
         </div>
 
             {/* Personalized Events & Study Groups */}
-            <Card className="bg-white/90 backdrop-blur-sm rounded-2xl border-0">
+            <Card className="bg-white/90 backdrop-blur-sm rounded-2xl border-0 shadow-lg">
               <CardHeader className="p-4 pb-2">
                 <CardTitle className="flex items-center space-x-2 font-grotesk text-lg">
                   <Calendar className="w-5 h-5 text-primary" />
                   <span>Top Events for You</span>
-                  <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">AI Curated</span>
+                  <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full shadow-sm">AI Curated</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-4 pt-2">
                 <div className="space-y-3">
-                  <div className="flex items-center space-x-3 p-3 bg-neutral-50 rounded-xl">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <div className="flex items-center space-x-3 p-3 bg-neutral-50 rounded-xl shadow-sm">
+                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center shadow-sm">
                       <Calendar className="w-5 h-5 text-primary" />
                     </div>
                     <div className="flex-1">
-                      <div className="h-4 bg-neutral-200 rounded w-3/4 mb-2"></div>
-                      <div className="h-3 bg-neutral-200 rounded w-1/2"></div>
+                      <div className="h-4 bg-neutral-200 rounded w-3/4 mb-2 shadow-inner"></div>
+                      <div className="h-3 bg-neutral-200 rounded w-1/2 shadow-inner"></div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 bg-neutral-50 rounded-xl">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <div className="flex items-center space-x-3 p-3 bg-neutral-50 rounded-xl shadow-sm">
+                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center shadow-sm">
                       <Users className="w-5 h-5 text-primary" />
                     </div>
                     <div className="flex-1">
-                      <div className="h-4 bg-neutral-200 rounded w-2/3 mb-2"></div>
-                      <div className="h-3 bg-neutral-200 rounded w-1/3"></div>
+                      <div className="h-4 bg-neutral-200 rounded w-2/3 mb-2 shadow-inner"></div>
+                      <div className="h-3 bg-neutral-200 rounded w-1/3 shadow-inner"></div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 bg-neutral-50 rounded-xl">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <div className="flex items-center space-x-3 p-3 bg-neutral-50 rounded-xl shadow-sm">
+                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center shadow-sm">
                       <MessageCircle className="w-5 h-5 text-primary" />
                     </div>
                     <div className="flex-1">
-                      <div className="h-4 bg-neutral-200 rounded w-4/5 mb-2"></div>
-                      <div className="h-3 bg-neutral-200 rounded w-2/5"></div>
+                      <div className="h-4 bg-neutral-200 rounded w-4/5 mb-2 shadow-inner"></div>
+                      <div className="h-3 bg-neutral-200 rounded w-2/5 shadow-inner"></div>
                     </div>
                   </div>
                 </div>
                 <div className="mt-4 text-center">
-                  <Button asChild variant="outline" size="sm">
+                  <Button asChild variant="outline" size="sm" className="shadow-sm hover:shadow-md">
                     <Link href="/dashboard/events">View All Events</Link>
                   </Button>
                 </div>
@@ -318,7 +318,7 @@ function DashboardContent() {
                 <div className="space-y-4">
             {/* Stats Cards */}
             <div className="grid grid-cols-2 gap-3">
-              <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0">
+              <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0 shadow-lg hover:shadow-xl transition-shadow">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold">
                     {statsLoading ? "..." : (userStats?.eventsJoined || 0)}
@@ -326,7 +326,7 @@ function DashboardContent() {
                   <div className="text-xs opacity-90">Events Joined</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0">
+              <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0 shadow-lg hover:shadow-xl transition-shadow">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold">
                     {statsLoading ? "..." : (userStats?.studyGroups || 0)}
@@ -334,7 +334,7 @@ function DashboardContent() {
                   <div className="text-xs opacity-90">Study Groups</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0">
+              <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0 shadow-lg hover:shadow-xl transition-shadow">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold">
                     {statsLoading ? "..." : (userStats?.messages || 0)}
@@ -342,7 +342,7 @@ function DashboardContent() {
                   <div className="text-xs opacity-90">Messages</div>
                 </CardContent>
               </Card>
-              <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0">
+              <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0 shadow-lg hover:shadow-xl transition-shadow">
                 <CardContent className="p-4 text-center">
                   <div className="text-2xl font-bold">
                     {statsLoading ? "..." : (userStats?.badges || 0)}
@@ -353,7 +353,7 @@ function DashboardContent() {
             </div>
 
             {/* Quick Access */}
-            <Card className="bg-white/90 backdrop-blur-sm rounded-2xl border-0">
+            <Card className="bg-white/90 backdrop-blur-sm rounded-2xl border-0 shadow-lg">
               <CardHeader className="p-4 pb-2">
                 <CardTitle className="font-grotesk text-lg">Quick Access</CardTitle>
               </CardHeader>
@@ -361,8 +361,8 @@ function DashboardContent() {
                 <div className="space-y-2">
                   {moreSectionItems.slice(0, 4).map((item, index) => (
                     <Link key={index} href={item.href}>
-                      <div className="flex items-center space-x-3 p-2 rounded-xl hover:bg-primary/5 transition-colors cursor-pointer">
-                        <div className={`w-8 h-8 ${item.color} rounded-lg flex items-center justify-center`}>
+                      <div className="flex items-center space-x-3 p-2 rounded-xl hover:bg-primary/5 transition-colors cursor-pointer shadow-sm hover:shadow-md">
+                        <div className={`w-8 h-8 ${item.color} rounded-lg flex items-center justify-center shadow-sm`}>
                           <item.icon className="w-4 h-4" />
                         </div>
                         <div className="flex-1">
@@ -378,14 +378,14 @@ function DashboardContent() {
             </Card>
 
             {/* AI Assistant */}
-            <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0">
+            <Card className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl border-0 shadow-lg hover:shadow-xl transition-shadow">
               <CardContent className="p-4 text-center">
-                <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-md">
                   <Bot className="w-6 h-6" />
                 </div>
                 <h3 className="font-bold text-lg mb-2">AI Assistant</h3>
                 <p className="text-sm opacity-90 mb-3">Get personalized help and recommendations</p>
-                <Button asChild className="bg-white text-primary hover:bg-primary/10 text-sm px-4 py-2 h-8">
+                <Button asChild className="bg-white text-primary hover:bg-primary/10 text-sm px-4 py-2 h-8 shadow-md hover:shadow-lg">
                   <Link href="/dashboard/chat">Chat Now</Link>
                 </Button>
               </CardContent>

@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
-  :root {
+:root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -37,9 +37,9 @@
     --primary-700: 240 4% 25%;
     --primary-800: 240 4% 16%;
     --primary-900: 240 4% 4%;
-  }
+}
 
-  .dark {
+.dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
