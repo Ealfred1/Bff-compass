@@ -146,7 +146,7 @@ export default function FeaturesPage() {
       <header className="container mx-auto px-4 py-6">
         <nav className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-#0D9488 to-#0F766E rounded-2xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#0D9488] to-[#0F766E] rounded-2xl flex items-center justify-center">
               <span className="text-white font-bold">BC</span>
             </div>
             <span className="font-bold text-neutral-900">BFF-Connect</span>
@@ -163,7 +163,7 @@ export default function FeaturesPage() {
           <Badge className="mb-4 bg-primary-100 text-primary-700">Features</Badge>
           <h1 className="text-5xl font-bold text-neutral-900 mb-6">
             Everything you need to{" "}
-            <span className="bg-gradient-to-r from-#0D9488 to-#0F766E bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#0D9488] to-[#0F766E] bg-clip-text text-transparent">
               thrive in college
             </span>
           </h1>
@@ -173,15 +173,15 @@ export default function FeaturesPage() {
           </p>
           <div className="flex items-center justify-center space-x-6 text-sm text-neutral-600">
             <div className="flex items-center space-x-2">
-              <CheckCircle className="w-4 h-4 text-#0D9488" />
+              <CheckCircle className="w-4 h-4 text-[#0D9488]" />
               <span>AI-Powered</span>
             </div>
             <div className="flex items-center space-x-2">
-              <Shield className="w-4 h-4 text-#0D9488" />
+              <Shield className="w-4 h-4 text-[#0D9488]" />
               <span>Secure & Private</span>
             </div>
             <div className="flex items-center space-x-2">
-              <Globe className="w-4 h-4 text-#0D9488" />
+              <Globe className="w-4 h-4 text-[#0D9488]" />
               <span>500+ Universities</span>
             </div>
           </div>
@@ -216,7 +216,7 @@ export default function FeaturesPage() {
                       <div className="grid grid-cols-2 gap-2">
                         {feature.benefits.map((benefit, idx) => (
                           <div key={idx} className="flex items-center space-x-2 text-sm">
-                            <CheckCircle className="w-4 h-4 text-#0D9488 flex-shrink-0" />
+                            <CheckCircle className="w-4 h-4 text-[#0D9488] flex-shrink-0" />
                             <span className="text-neutral-600">{benefit}</span>
                           </div>
                         ))}
@@ -306,7 +306,7 @@ export default function FeaturesPage() {
               <Card key={index} className="border-0 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200">
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-#0D9488 to-#0F766E rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-gradient-to-br from-[#0D9488] to-[#0F766E] rounded-full flex items-center justify-center">
                       <span className="text-white font-bold text-sm">
                         {testimonial.name.split(' ').map(n => n[0]).join('')}
                       </span>
@@ -334,7 +334,7 @@ export default function FeaturesPage() {
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-20">
         <div className="max-w-4xl mx-auto">
-          <div className="relative bg-gradient-to-r from-#0D9488 to-#0F766E rounded-3xl p-12 text-center text-white overflow-hidden">
+          <div className="relative bg-gradient-to-r from-[#0D9488] to-[#0F766E] rounded-3xl p-12 text-center text-white overflow-hidden">
             <div className="absolute inset-0 bg-black/10"></div>
             <div className="relative z-10">
               <h2 className="text-3xl lg:text-4xl font-bold mb-4">Ready to experience the future of student life?</h2>
@@ -347,7 +347,7 @@ export default function FeaturesPage() {
                   size="lg"
                   variant="secondary"
                   asChild
-                  className="rounded-xl h-14 px-8 bg-white text-#0F766E hover:bg-neutral-50"
+                  className="rounded-xl h-14 px-8 bg-white text-[#0F766E] hover:bg-neutral-50"
                 >
                   <Link href="/register">Get Started Free</Link>
                 </Button>
@@ -373,7 +373,7 @@ export default function FeaturesPage() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-#0D9488 to-#0F766E rounded-2xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-[#0D9488] to-[#0F766E] rounded-2xl flex items-center justify-center">
                   <span className="text-white font-bold">BC</span>
                 </div>
                 <span className="font-bold text-neutral-900">BFF-Connect</span>
@@ -384,13 +384,13 @@ export default function FeaturesPage() {
               <h4 className="font-semibold text-neutral-900 mb-3">Platform</h4>
               <ul className="space-y-2 text-sm text-neutral-600">
                 <li>
-                  <Link href="/" className="hover:text-#0F766E">Home</Link>
+                  <Link href="/" className="hover:text-[#0F766E]">Home</Link>
                 </li>
                 <li>
-                  <Link href="/features" className="hover:text-#0F766E">Features</Link>
+                  <Link href="/features" className="hover:text-[#0F766E]">Features</Link>
                 </li>
                 <li>
-                  <Link href="/universities" className="hover:text-#0F766E">Universities</Link>
+                  <Link href="/universities" className="hover:text-[#0F766E]">Universities</Link>
                 </li>
               </ul>
             </div>
@@ -398,13 +398,13 @@ export default function FeaturesPage() {
               <h4 className="font-semibold text-neutral-900 mb-3">Support</h4>
               <ul className="space-y-2 text-sm text-neutral-600">
                 <li>
-                  <Link href="/help" className="hover:text-#0F766E">Help Center</Link>
+                  <Link href="/help" className="hover:text-[#0F766E]">Help Center</Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-#0F766E">Contact Us</Link>
+                  <Link href="/contact" className="hover:text-[#0F766E]">Contact Us</Link>
                 </li>
                 <li>
-                  <Link href="/community" className="hover:text-#0F766E">Community</Link>
+                  <Link href="/community" className="hover:text-[#0F766E]">Community</Link>
                 </li>
               </ul>
             </div>
@@ -412,13 +412,13 @@ export default function FeaturesPage() {
               <h4 className="font-semibold text-neutral-900 mb-3">Company</h4>
               <ul className="space-y-2 text-sm text-neutral-600">
                 <li>
-                  <Link href="/about" className="hover:text-#0F766E">About</Link>
+                  <Link href="/about" className="hover:text-[#0F766E]">About</Link>
                 </li>
                 <li>
-                  <Link href="/privacy" className="hover:text-#0F766E">Privacy</Link>
+                  <Link href="/privacy" className="hover:text-[#0F766E]">Privacy</Link>
                 </li>
                 <li>
-                  <Link href="/terms" className="hover:text-#0F766E">Terms</Link>
+                  <Link href="/terms" className="hover:text-[#0F766E]">Terms</Link>
                 </li>
               </ul>
             </div>

@@ -74,7 +74,7 @@ export default function AboutPage() {
       <header className="container mx-auto px-4 py-6">
         <nav className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-#0D9488 to-#0F766E rounded-2xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-#0D9488 to-[#0F766E] rounded-2xl flex items-center justify-center">
               <span className="text-white font-bold">BC</span>
             </div>
             <span className="font-bold text-neutral-900">BFF-Connect</span>
@@ -91,7 +91,7 @@ export default function AboutPage() {
           <Badge className="mb-4 bg-primary-100 text-primary-700">About Us</Badge>
           <h1 className="text-5xl font-bold text-neutral-900 mb-6">
             Building Bridges Between{" "}
-            <span className="bg-gradient-to-r from-#0D9488 to-#0F766E bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-#0D9488 to-[#0F766E] bg-clip-text text-transparent">
               Students Worldwide
             </span>
           </h1>
@@ -102,15 +102,15 @@ export default function AboutPage() {
           </p>
           <div className="flex items-center justify-center space-x-6 text-sm text-neutral-600">
             <div className="flex items-center space-x-2">
-              <CheckCircle className="w-4 h-4 text-#0D9488" />
+              <CheckCircle className="w-4 h-4 text-[#0D9488]" />
               <span>10,000+ Students</span>
             </div>
             <div className="flex items-center space-x-2">
-              <Globe className="w-4 h-4 text-#0D9488" />
+              <Globe className="w-4 h-4 text-[#0D9488]" />
               <span>500+ Universities</span>
             </div>
             <div className="flex items-center space-x-2">
-              <Star className="w-4 h-4 text-#0D9488" />
+              <Star className="w-4 h-4 text-[#0D9488]" />
               <span>98% Satisfaction</span>
             </div>
           </div>
@@ -199,11 +199,11 @@ export default function AboutPage() {
                 <CardHeader>
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                      <Award className="w-6 h-6 text-#0F766E" />
+                      <Award className="w-6 h-6 text-[#0F766E]" />
                     </div>
                     <div>
                       <CardTitle className="text-lg">{milestone.title}</CardTitle>
-                      <CardDescription className="text-#0F766E font-medium">{milestone.year}</CardDescription>
+                      <CardDescription className="text-[#0F766E] font-medium">{milestone.year}</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
@@ -219,7 +219,7 @@ export default function AboutPage() {
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-20">
         <div className="max-w-4xl mx-auto">
-          <div className="relative bg-gradient-to-r from-#0D9488 to-#0F766E rounded-3xl p-12 text-center text-white overflow-hidden">
+          <div className="relative bg-gradient-to-r from-#0D9488 to-[#0F766E] rounded-3xl p-12 text-center text-white overflow-hidden">
             <div className="absolute inset-0 bg-black/10"></div>
             <div className="relative z-10">
               <h2 className="text-3xl lg:text-4xl font-bold mb-4">Ready to be part of our story?</h2>
@@ -232,7 +232,7 @@ export default function AboutPage() {
                   size="lg"
                   variant="secondary"
                   asChild
-                  className="rounded-xl h-14 px-8 bg-white text-#0F766E hover:bg-neutral-50"
+                  className="rounded-xl h-14 px-8 bg-white text-[#0F766E] hover:bg-neutral-50"
                 >
                   <Link href="/register">Get Started Free</Link>
                 </Button>
@@ -258,7 +258,7 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-#0D9488 to-#0F766E rounded-2xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-#0D9488 to-[#0F766E] rounded-2xl flex items-center justify-center">
                   <span className="text-white font-bold">BC</span>
                 </div>
                 <span className="font-bold text-neutral-900">BFF-Connect</span>
@@ -269,13 +269,13 @@ export default function AboutPage() {
               <h4 className="font-semibold text-neutral-900 mb-3">Platform</h4>
               <ul className="space-y-2 text-sm text-neutral-600">
                 <li>
-                  <Link href="/" className="hover:text-#0F766E">Home</Link>
+                  <Link href="/" className="hover:text-[#0F766E]">Home</Link>
                 </li>
                 <li>
-                  <Link href="/features" className="hover:text-#0F766E">Features</Link>
+                  <Link href="/features" className="hover:text-[#0F766E]">Features</Link>
                 </li>
                 <li>
-                  <Link href="/universities" className="hover:text-#0F766E">Universities</Link>
+                  <Link href="/universities" className="hover:text-[#0F766E]">Universities</Link>
                 </li>
               </ul>
             </div>
@@ -283,13 +283,13 @@ export default function AboutPage() {
               <h4 className="font-semibold text-neutral-900 mb-3">Support</h4>
               <ul className="space-y-2 text-sm text-neutral-600">
                 <li>
-                  <Link href="/help" className="hover:text-#0F766E">Help Center</Link>
+                  <Link href="/help" className="hover:text-[#0F766E]">Help Center</Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-#0F766E">Contact Us</Link>
+                  <Link href="/contact" className="hover:text-[#0F766E]">Contact Us</Link>
                 </li>
                 <li>
-                  <Link href="/community" className="hover:text-#0F766E">Community</Link>
+                  <Link href="/community" className="hover:text-[#0F766E]">Community</Link>
                 </li>
               </ul>
             </div>
@@ -297,13 +297,13 @@ export default function AboutPage() {
               <h4 className="font-semibold text-neutral-900 mb-3">Company</h4>
               <ul className="space-y-2 text-sm text-neutral-600">
                 <li>
-                  <Link href="/about" className="hover:text-#0F766E">About</Link>
+                  <Link href="/about" className="hover:text-[#0F766E]">About</Link>
                 </li>
                 <li>
-                  <Link href="/privacy" className="hover:text-#0F766E">Privacy</Link>
+                  <Link href="/privacy" className="hover:text-[#0F766E]">Privacy</Link>
                 </li>
                 <li>
-                  <Link href="/terms" className="hover:text-#0F766E">Terms</Link>
+                  <Link href="/terms" className="hover:text-[#0F766E]">Terms</Link>
                 </li>
               </ul>
             </div>
