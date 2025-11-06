@@ -64,14 +64,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loadProfile = async (userId: string) => {
     try {
+      const { data: currentUser } = await supabase.auth.getUser()
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", userId)
         .single()
 
-      if (error) throw error
-      setProfile(data as Profile)
+      if (error) {
+        // If profile doesn't exist, create a basic one
+        if (error.code === "PGRST116") {
+          const userEmail = currentUser?.data?.user?.email
+          const userMetadata = currentUser?.data?.user?.user_metadata
+          const { data: newProfile } = await supabase
+            .from("profiles")
+            .insert({
+              id: userId,
+              username: userEmail?.split("@")[0] || `user_${userId.slice(0, 8)}`,
+              display_name: userMetadata?.full_name || userMetadata?.name || userEmail?.split("@")[0] || "User",
+              avatar_url: userMetadata?.avatar_url || null,
+            })
+            .select()
+            .single()
+          if (newProfile) {
+            setProfile(newProfile as Profile)
+          }
+        } else {
+          console.error("Error loading profile:", error)
+        }
+      } else if (data) {
+        setProfile(data as Profile)
+      }
     } catch (error) {
       console.error("Error loading profile:", error)
     } finally {
