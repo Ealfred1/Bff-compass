@@ -197,7 +197,7 @@ export default function EventsPage() {
             return (
               <Card
                 key={event.id}
-                className={`border-2 border-neutral-200 bg-white/90 backdrop-blur-sm rounded-2xl hover:border-primary-300 transition-colors ${
+                className={`border-2 border-neutral-200 bg-white/90 backdrop-blur-sm rounded-2xl hover:border-primary/30 transition-colors ${
                   isPast ? "opacity-60" : ""
                 }`}
               >

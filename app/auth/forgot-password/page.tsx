@@ -102,7 +102,7 @@ export default function ForgotPasswordPage() {
                     Didn't receive the email? Check your spam folder or{" "}
                     <button
                       onClick={() => setEmailSent(false)}
-                      className="text-primary-600 hover:text-primary-700 font-medium"
+                      className="text-primary hover:text-primary/80 font-medium"
                     >
                       try again
                     </button>

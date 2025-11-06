@@ -210,7 +210,7 @@ export default function LandingPage() {
             <Badge className="mb-4 bg-primary/10 text-primary font-grotesk font-medium">Platform Features</Badge>
             <h2 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6 font-grotesk">
               Everything You Need to{" "}
-              <span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent">
                 Succeed
               </span>
             </h2>
@@ -251,7 +251,7 @@ export default function LandingPage() {
             <Badge className="mb-4 bg-primary/10 text-primary font-grotesk font-medium">Student Success Stories</Badge>
             <h2 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6 font-grotesk">
               Loved by{" "}
-              <span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent">
                 Students
               </span>{" "}
               Worldwide
