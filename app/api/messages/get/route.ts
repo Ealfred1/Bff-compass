@@ -39,7 +39,7 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: "Not a group member" }, { status: 403 })
       }
 
-      // Get group messages
+      // Get group messages with full sender profile info
       const { data: messages, error } = await supabase
         .from("messages")
         .select(`
@@ -49,7 +49,12 @@ export async function GET(request: Request) {
           encryption_iv,
           created_at,
           sender_id,
-          profiles(display_name)
+          profiles(
+            id,
+            display_name,
+            username,
+            avatar_url
+          )
         `)
         .eq("group_id", connectionId)
         .order("created_at", { ascending: true })
@@ -74,10 +79,21 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
     }
 
-    // Get messages with sender info
+    // Get messages with full sender profile info
     const { data: messages, error } = await supabase
       .from("messages")
-      .select("id, content, created_at, sender_id, profiles(display_name)")
+      .select(`
+        id,
+        content,
+        created_at,
+        sender_id,
+        profiles(
+          id,
+          display_name,
+          username,
+          avatar_url
+        )
+      `)
       .eq("connection_id", connectionId)
       .order("created_at", { ascending: true })
 

@@ -10,12 +10,23 @@ import { Input } from "@/components/ui/input"
 import { MessageBubble } from "@/components/message-bubble"
 import Link from "next/link"
 import { useParams } from "next/navigation"
+import { decryptStoredMessage } from "@/lib/encryption"
+
+interface SenderProfile {
+  id: string
+  display_name: string
+  username?: string
+  avatar_url?: string | null
+}
 
 interface Message {
   id: string
-  content: string
+  content?: string
+  encrypted_content?: string
+  encryption_iv?: string
   created_at: string
   sender_id: string
+  profiles: SenderProfile | null
 }
 
 interface Connection {
@@ -36,6 +47,8 @@ export default function MessagesPage() {
   const [isSending, setIsSending] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [userId, setUserId] = useState<string | null>(null)
+  const [isGroup, setIsGroup] = useState(false)
+  const [groupMemberCount, setGroupMemberCount] = useState<number | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const params = useParams()
   const connectionId = params.connectionId as string
@@ -72,6 +85,16 @@ export default function MessagesPage() {
 
       if (group) {
         // It's a buddy group - set up for group chat
+        setIsGroup(true)
+        
+        // Get member count
+        const { count } = await supabase
+          .from("buddy_group_members")
+          .select("*", { count: "exact", head: true })
+          .eq("group_id", group.id)
+        
+        setGroupMemberCount(count || 0)
+        
         setConnection({
           id: group.id,
           user1_id: user.id,
@@ -124,7 +147,32 @@ export default function MessagesPage() {
       const response = await fetch(`/api/messages/get?connectionId=${connectionId}`)
       if (!response.ok) throw new Error("Failed to load messages")
       const { messages: newMessages } = await response.json()
-      setMessages(newMessages)
+      
+      // Check if it's a group by checking if messages have encrypted_content
+      // or by checking if connectionId is a group
+      const isGroupChat = isGroup || (newMessages.length > 0 && newMessages[0]?.encrypted_content)
+      
+      // Decrypt messages if they're encrypted (for group messages)
+      const decryptedMessages = await Promise.all(
+        newMessages.map(async (msg: Message) => {
+          if (msg.encrypted_content && msg.encryption_iv && isGroupChat) {
+            try {
+              const decrypted = await decryptStoredMessage(
+                msg.encrypted_content,
+                msg.encryption_iv,
+                connectionId
+              )
+              return { ...msg, content: decrypted }
+            } catch (err) {
+              console.error("Failed to decrypt message:", err)
+              return { ...msg, content: "[Unable to decrypt message]" }
+            }
+          }
+          return msg
+        })
+      )
+      
+      setMessages(decryptedMessages)
     } catch (err: unknown) {
       console.error(err instanceof Error ? err.message : "Failed to load messages")
     }
@@ -190,10 +238,18 @@ export default function MessagesPage() {
       <header className="border-b border-border py-4 px-6">
         <div className="max-w-4xl mx-auto flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Chat with {connection?.other_user.display_name}</h1>
-            <p className="text-sm text-muted-foreground">Connected Buddy</p>
+            <h1 className="text-2xl font-bold text-foreground">
+              {isGroup ? "Chat with Buddy Group" : `Chat with ${connection?.other_user.display_name}`}
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              {isGroup
+                ? groupMemberCount !== null
+                  ? `${groupMemberCount} ${groupMemberCount === 1 ? "member" : "members"}`
+                  : "Group Chat"
+                : "Connected Buddy"}
+            </p>
           </div>
-          <Link href="/dashboard/connections">
+          <Link href={isGroup ? "/dashboard/matches" : "/dashboard/connections"}>
             <Button variant="outline" className="border-border hover:bg-muted font-medium bg-transparent">
               Back
             </Button>
@@ -211,15 +267,25 @@ export default function MessagesPage() {
                 </div>
               ) : (
                 <>
-                  {messages.map((message) => (
-                    <MessageBubble
-                      key={message.id}
-                      content={message.content}
-                      isSent={message.sender_id === userId}
-                      senderName={connection?.other_user.display_name || "User"}
-                      timestamp={message.created_at}
-                    />
-                  ))}
+                  {messages.map((message) => {
+                    const sender = message.profiles
+                    const senderName = sender?.display_name || "Unknown User"
+                    const senderUsername = sender?.username
+                    const senderAvatar = sender?.avatar_url
+                    const messageContent = message.content || "[No content]"
+
+                    return (
+                      <MessageBubble
+                        key={message.id}
+                        content={messageContent}
+                        isSent={message.sender_id === userId}
+                        senderName={senderName}
+                        senderUsername={senderUsername}
+                        senderAvatar={senderAvatar}
+                        timestamp={message.created_at}
+                      />
+                    )
+                  })}
                   <div ref={messagesEndRef} />
                 </>
               )}

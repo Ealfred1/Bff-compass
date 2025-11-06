@@ -2,24 +2,106 @@ interface MessageBubbleProps {
   content: string
   isSent: boolean
   senderName: string
+  senderUsername?: string
+  senderAvatar?: string | null
   timestamp: string
 }
 
-export function MessageBubble({ content, isSent, senderName, timestamp }: MessageBubbleProps) {
+function getInitials(name: string): string {
+  if (!name) return "?"
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2)
+}
+
+function getAvatarColor(name: string): string {
+  // Generate a consistent color based on the name
+  const colors = [
+    "bg-blue-500",
+    "bg-green-500",
+    "bg-purple-500",
+    "bg-pink-500",
+    "bg-indigo-500",
+    "bg-yellow-500",
+    "bg-red-500",
+    "bg-teal-500",
+  ]
+  const index = name.charCodeAt(0) % colors.length
+  return colors[index]
+}
+
+export function MessageBubble({
+  content,
+  isSent,
+  senderName,
+  senderUsername,
+  senderAvatar,
+  timestamp,
+}: MessageBubbleProps) {
   const date = new Date(timestamp)
   const formattedTime = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+  const initials = getInitials(senderName)
+  const avatarColor = getAvatarColor(senderName)
 
   return (
-    <div className={`flex ${isSent ? "justify-end" : "justify-start"}`}>
-      <div
-        className={`max-w-xs px-4 py-2 rounded border ${
-          isSent ? "bg-primary text-primary-foreground border-primary" : "bg-muted text-foreground border-border"
-        }`}
-      >
-        {!isSent && <p className="text-xs font-medium mb-1 opacity-70">{senderName}</p>}
-        <p className="text-sm break-words">{content}</p>
-        <p className={`text-xs mt-1 ${isSent ? "opacity-70" : "text-muted-foreground"}`}>{formattedTime}</p>
+    <div className={`flex gap-2 ${isSent ? "justify-end" : "justify-start"} items-end`}>
+      {!isSent && (
+        <div className="flex-shrink-0">
+          {senderAvatar ? (
+            <img
+              src={senderAvatar}
+              alt={senderName}
+              className="w-8 h-8 rounded-full object-cover border-2 border-border"
+            />
+          ) : (
+            <div
+              className={`w-8 h-8 rounded-full ${avatarColor} flex items-center justify-center text-white text-xs font-semibold border-2 border-border`}
+            >
+              {initials}
+            </div>
+          )}
+        </div>
+      )}
+      <div className={`flex flex-col ${isSent ? "items-end" : "items-start"} max-w-xs`}>
+        {!isSent && (
+          <div className="flex items-center gap-1 mb-1">
+            <p className="text-xs font-semibold text-foreground">{senderName}</p>
+            {senderUsername && senderUsername !== senderName && (
+              <p className="text-xs text-muted-foreground">@{senderUsername}</p>
+            )}
+          </div>
+        )}
+        <div
+          className={`px-4 py-2 rounded-lg border ${
+            isSent
+              ? "bg-primary text-primary-foreground border-primary rounded-br-sm"
+              : "bg-muted text-foreground border-border rounded-bl-sm"
+          }`}
+        >
+          <p className="text-sm break-words whitespace-pre-wrap">{content}</p>
+          <p className={`text-xs mt-1 ${isSent ? "opacity-70" : "text-muted-foreground"}`}>{formattedTime}</p>
+        </div>
       </div>
+      {isSent && (
+        <div className="flex-shrink-0">
+          {senderAvatar ? (
+            <img
+              src={senderAvatar}
+              alt={senderName}
+              className="w-8 h-8 rounded-full object-cover border-2 border-border"
+            />
+          ) : (
+            <div
+              className={`w-8 h-8 rounded-full ${avatarColor} flex items-center justify-center text-white text-xs font-semibold border-2 border-border`}
+            >
+              {initials}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
