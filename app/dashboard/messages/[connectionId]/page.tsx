@@ -205,14 +205,14 @@ export default function MessagesPage() {
 
   if (isLoading) {
     return (
-      <main className="min-h-svh bg-background">
-        <header className="border-b border-border py-4 px-6">
+      <main className="min-h-svh bg-gradient-to-br from-neutral-50 to-primary/5">
+        <header className="border-b border-neutral-200/50 bg-white/80 backdrop-blur-sm py-4 px-6 shadow-sm">
           <div className="max-w-4xl mx-auto flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-foreground">Messages</h1>
+            <h1 className="text-2xl font-bold text-neutral-900 font-grotesk">Messages</h1>
           </div>
         </header>
         <div className="flex items-center justify-center py-12">
-          <p className="text-muted-foreground">Loading...</p>
+          <p className="text-neutral-600">Loading...</p>
         </div>
       </main>
     )
@@ -220,28 +220,28 @@ export default function MessagesPage() {
 
   if (error) {
     return (
-      <main className="min-h-svh bg-background">
-        <header className="border-b border-border py-4 px-6">
+      <main className="min-h-svh bg-gradient-to-br from-neutral-50 to-primary/5">
+        <header className="border-b border-neutral-200/50 bg-white/80 backdrop-blur-sm py-4 px-6 shadow-sm">
           <div className="max-w-4xl mx-auto flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-foreground">Messages</h1>
+            <h1 className="text-2xl font-bold text-neutral-900 font-grotesk">Messages</h1>
           </div>
         </header>
         <div className="flex items-center justify-center py-12">
-          <p className="text-destructive font-medium">{error}</p>
+          <p className="text-red-600 font-medium">{error}</p>
         </div>
       </main>
     )
   }
 
   return (
-    <main className="min-h-svh bg-background">
-      <header className="border-b border-border py-4 px-6">
+    <main className="min-h-svh bg-gradient-to-br from-neutral-50 to-primary/5">
+      <header className="border-b border-neutral-200/50 bg-white/80 backdrop-blur-sm py-4 px-6 shadow-sm">
         <div className="max-w-4xl mx-auto flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">
+            <h1 className="text-2xl font-bold text-neutral-900 font-grotesk">
               {isGroup ? "Chat with Buddy Group" : `Chat with ${connection?.other_user.display_name}`}
             </h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-neutral-600 font-poppins">
               {isGroup
                 ? groupMemberCount !== null
                   ? `${groupMemberCount} ${groupMemberCount === 1 ? "member" : "members"}`
@@ -250,7 +250,7 @@ export default function MessagesPage() {
             </p>
           </div>
           <Link href={isGroup ? "/dashboard/matches" : "/dashboard/connections"}>
-            <Button variant="outline" className="border-border hover:bg-muted font-medium bg-transparent">
+            <Button variant="outline" className="border-neutral-200 hover:bg-neutral-50 font-medium bg-white">
               Back
             </Button>
           </Link>
@@ -259,11 +259,14 @@ export default function MessagesPage() {
 
       <section className="py-6 px-6">
         <div className="max-w-4xl mx-auto">
-          <Card className="border-border flex flex-col h-[600px]">
-            <CardContent className="flex-1 overflow-y-auto p-4 space-y-3">
+          <Card className="border-0 bg-white/90 backdrop-blur-sm shadow-xl flex flex-col h-[600px]">
+            <CardContent className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-neutral-50/50 to-white">
               {messages.length === 0 ? (
                 <div className="flex items-center justify-center h-full text-center">
-                  <p className="text-muted-foreground">No messages yet. Start the conversation!</p>
+                  <div>
+                    <p className="text-neutral-600 font-poppins mb-2">No messages yet. Start the conversation! 💬</p>
+                    <p className="text-sm text-neutral-500">Send a message to get started</p>
+                  </div>
                 </div>
               ) : (
                 <>
@@ -290,7 +293,7 @@ export default function MessagesPage() {
                 </>
               )}
             </CardContent>
-            <CardHeader className="border-t border-border p-4">
+            <CardHeader className="border-t border-neutral-200/50 bg-white/90 p-4">
               <form onSubmit={handleSendMessage} className="flex gap-2">
                 <Input
                   type="text"
@@ -298,12 +301,12 @@ export default function MessagesPage() {
                   value={messageContent}
                   onChange={(e) => setMessageContent(e.target.value)}
                   disabled={isSending}
-                  className="border-border bg-input text-foreground flex-1"
+                  className="border-neutral-200 bg-white text-neutral-900 flex-1 focus:border-primary focus:ring-primary/20"
                 />
                 <Button
                   type="submit"
                   disabled={isSending || !messageContent.trim()}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 border border-primary font-medium px-6"
+                  className="bg-primary hover:bg-primary/90 text-white border-0 font-medium px-6 shadow-md"
                 >
                   {isSending ? "..." : "Send"}
                 </Button>

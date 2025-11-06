@@ -148,8 +148,8 @@ export default function EventsPage() {
 
       {/* Survey Re-trigger Alert */}
       {shouldRetakeSurvey && (
-        <Alert className="mb-6 border-primary-200 bg-primary-50">
-          <CheckCircle className="h-4 w-4 text-primary-600" />
+        <Alert className="mb-6 border-primary/20 bg-primary/5">
+          <CheckCircle className="h-4 w-4 text-primary" />
           <AlertTitle className="font-grotesk">Time to Update Your Profile!</AlertTitle>
           <AlertDescription className="font-poppins">
             You've attended {userEventCount} events! Take the surveys again to update your buddy matches and guidance.
@@ -163,22 +163,22 @@ export default function EventsPage() {
       )}
 
       {/* Event Stats */}
-      <Card className="mb-6 border-primary/20 bg-gradient-to-r from-primary-50 to-primary-100">
+      <Card className="mb-6 border-primary/20 bg-gradient-to-r from-primary/5 to-primary/10">
         <CardContent className="py-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-primary-700 mb-1 font-poppins font-medium">Events You've Attended</p>
+              <p className="text-sm text-primary mb-1 font-poppins font-medium">Events You've Attended</p>
               <div className="flex items-baseline gap-2">
-                <p className="text-3xl font-bold text-primary-600 font-grotesk">{userEventCount}</p>
-                <p className="text-sm text-primary-600 font-poppins">/ {events.length} total events</p>
+                <p className="text-3xl font-bold text-primary font-grotesk">{userEventCount}</p>
+                <p className="text-sm text-primary font-poppins">/ {events.length} total events</p>
               </div>
               {userEventCount < 20 && (
-                <p className="text-xs text-primary-600 mt-1 font-poppins">
+                <p className="text-xs text-primary mt-1 font-poppins">
                   {20 - userEventCount} more events until survey update
                 </p>
               )}
             </div>
-            <Calendar className="h-10 w-10 text-primary-500" />
+            <Calendar className="h-10 w-10 text-primary" />
           </div>
         </CardContent>
       </Card>
@@ -206,7 +206,7 @@ export default function EventsPage() {
                     <div className="flex items-start justify-between mb-2">
                       <CardTitle className="text-lg font-grotesk font-semibold">{event.title}</CardTitle>
                       {event.isAttending && (
-                        <Badge className="bg-primary-500 text-white">
+                        <Badge className="bg-primary text-white">
                           <CheckCircle className="h-3 w-3 mr-1" />
                           Attending
                         </Badge>

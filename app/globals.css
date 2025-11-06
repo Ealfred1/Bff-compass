@@ -131,7 +131,8 @@
   }
 
   .glass-effect {
-    @apply bg-white/80 backdrop-blur-lg border-2 border-primary-200;
+    @apply bg-white/80 backdrop-blur-lg border-2;
+    border-color: hsl(var(--primary) / 0.2);
   }
 
   .card-hover {
@@ -152,7 +153,12 @@
   }
 
   .chatbot-prose a {
-    @apply text-primary-600 hover:text-primary-700 hover:underline font-medium transition-colors duration-200;
+    @apply hover:underline font-medium transition-colors duration-200;
+    color: hsl(var(--primary));
+  }
+
+  .chatbot-prose a:hover {
+    color: hsl(var(--primary) / 0.8);
   }
 
   .chatbot-prose ul {
@@ -195,11 +201,13 @@
 
   /* Glass morphism effects */
   .glass-card {
-    @apply bg-white/70 backdrop-blur-sm border-2 border-primary-200;
+    @apply bg-white/70 backdrop-blur-sm border-2;
+    border-color: hsl(var(--primary) / 0.2);
   }
 
   .glass-input {
-    @apply bg-white/80 backdrop-blur-sm border-2 border-primary-200;
+    @apply bg-white/80 backdrop-blur-sm border-2;
+    border-color: hsl(var(--primary) / 0.2);
   }
 }
 

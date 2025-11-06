@@ -101,11 +101,11 @@ export default function RegisterPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-primary-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-primary/5 relative overflow-hidden">
       {/* Geometric Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-0 w-80 h-80 bg-secondary-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl"></div>
         <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 1200 800">
           <defs>
             <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -148,8 +148,8 @@ export default function RegisterPage() {
               <div className="space-y-4">
                 {benefits.map((benefit, index) => (
                   <div key={index} className="flex items-center space-x-3">
-                    <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-4 h-4 text-primary-600" />
+                    <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-4 h-4 text-primary" />
                     </div>
                     <span className="text-neutral-700">{benefit}</span>
                   </div>
@@ -158,9 +158,9 @@ export default function RegisterPage() {
               <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-neutral-200">
                 <div className="flex items-center space-x-4">
                   <div className="flex -space-x-2">
-                    <div className="w-8 h-8 rounded-full border-2 border-white bg-primary-200"></div>
-                    <div className="w-8 h-8 rounded-full border-2 border-white bg-primary-300"></div>
-                    <div className="w-8 h-8 rounded-full border-2 border-white bg-primary-400"></div>
+                    <div className="w-8 h-8 rounded-full border-2 border-white bg-primary/20"></div>
+                    <div className="w-8 h-8 rounded-full border-2 border-white bg-primary/30"></div>
+                    <div className="w-8 h-8 rounded-full border-2 border-white bg-primary/40"></div>
                   </div>
                   <div>
                     <div className="text-sm font-medium text-neutral-900">10,000+ students joined</div>
@@ -175,7 +175,7 @@ export default function RegisterPage() {
           <div className="w-full max-w-md mx-auto">
             <Card className="border-0 bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl">
               <CardHeader className="text-center pb-8">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
                   <User className="w-8 h-8 text-white" />
                 </div>
                 <CardTitle className="text-2xl font-bold">Create your account</CardTitle>
@@ -274,7 +274,7 @@ export default function RegisterPage() {
 
                   <Button
                     type="submit"
-                    className="w-full h-12 rounded-xl bg-primary-500 hover:bg-primary-600 shadow-lg"
+                    className="w-full h-12 rounded-xl bg-primary hover:bg-primary/90 shadow-lg text-white"
                     disabled={loading}
                   >
                     {loading ? "Creating account..." : "Create account"}
@@ -283,18 +283,18 @@ export default function RegisterPage() {
 
                 <div className="text-center text-sm">
                   <span className="text-neutral-600">Already have an account? </span>
-                  <Link href="/auth/login" className="text-primary-600 hover:text-primary-700 font-medium">
+                  <Link href="/auth/login" className="text-primary hover:text-primary/80 font-medium">
                     Sign in
                   </Link>
                 </div>
 
                 <div className="text-xs text-neutral-500 text-center">
                   By creating an account, you agree to our{" "}
-                  <Link href="#" className="text-primary-600 hover:text-primary-700">
+                  <Link href="#" className="text-primary hover:text-primary/80">
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link href="#" className="text-primary-600 hover:text-primary-700">
+                  <Link href="#" className="text-primary hover:text-primary/80">
                     Privacy Policy
                   </Link>
                 </div>

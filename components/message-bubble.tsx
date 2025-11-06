@@ -47,18 +47,18 @@ export function MessageBubble({
   const avatarColor = getAvatarColor(senderName)
 
   return (
-    <div className={`flex gap-2 ${isSent ? "justify-end" : "justify-start"} items-end`}>
+    <div className={`flex gap-3 ${isSent ? "justify-end" : "justify-start"} items-end`}>
       {!isSent && (
         <div className="flex-shrink-0">
           {senderAvatar ? (
             <img
               src={senderAvatar}
               alt={senderName}
-              className="w-8 h-8 rounded-full object-cover border-2 border-border"
+              className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md"
             />
           ) : (
             <div
-              className={`w-8 h-8 rounded-full ${avatarColor} flex items-center justify-center text-white text-xs font-semibold border-2 border-border`}
+              className={`w-10 h-10 rounded-full ${avatarColor} flex items-center justify-center text-white text-xs font-semibold border-2 border-white shadow-md`}
             >
               {initials}
             </div>
@@ -67,22 +67,22 @@ export function MessageBubble({
       )}
       <div className={`flex flex-col ${isSent ? "items-end" : "items-start"} max-w-xs`}>
         {!isSent && (
-          <div className="flex items-center gap-1 mb-1">
-            <p className="text-xs font-semibold text-foreground">{senderName}</p>
+          <div className="flex items-center gap-1 mb-1 px-1">
+            <p className="text-xs font-semibold text-neutral-700">{senderName}</p>
             {senderUsername && senderUsername !== senderName && (
-              <p className="text-xs text-muted-foreground">@{senderUsername}</p>
+              <p className="text-xs text-neutral-500">@{senderUsername}</p>
             )}
           </div>
         )}
         <div
-          className={`px-4 py-2 rounded-lg border ${
+          className={`px-4 py-2.5 rounded-2xl shadow-sm ${
             isSent
-              ? "bg-primary text-primary-foreground border-primary rounded-br-sm"
-              : "bg-muted text-foreground border-border rounded-bl-sm"
+              ? "bg-gradient-to-br from-primary to-primary/90 text-white rounded-br-md"
+              : "bg-white text-neutral-900 border border-neutral-200/50 rounded-bl-md"
           }`}
         >
-          <p className="text-sm break-words whitespace-pre-wrap">{content}</p>
-          <p className={`text-xs mt-1 ${isSent ? "opacity-70" : "text-muted-foreground"}`}>{formattedTime}</p>
+          <p className="text-sm break-words whitespace-pre-wrap leading-relaxed">{content}</p>
+          <p className={`text-xs mt-1.5 ${isSent ? "text-white/70" : "text-neutral-500"}`}>{formattedTime}</p>
         </div>
       </div>
       {isSent && (
@@ -91,11 +91,11 @@ export function MessageBubble({
             <img
               src={senderAvatar}
               alt={senderName}
-              className="w-8 h-8 rounded-full object-cover border-2 border-border"
+              className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md"
             />
           ) : (
             <div
-              className={`w-8 h-8 rounded-full ${avatarColor} flex items-center justify-center text-white text-xs font-semibold border-2 border-border`}
+              className={`w-10 h-10 rounded-full ${avatarColor} flex items-center justify-center text-white text-xs font-semibold border-2 border-white shadow-md`}
             >
               {initials}
             </div>

@@ -216,13 +216,13 @@ export default function ChatPage() {
           {isUser ? (
             <>
               <AvatarImage src={profile?.avatar_url} />
-              <AvatarFallback className="bg-primary-100 text-primary-700">
+              <AvatarFallback className="bg-primary/10 text-primary">
                 {getInitials(profile?.display_name || profile?.username || "U")}
               </AvatarFallback>
             </>
           ) : (
             <>
-              <AvatarFallback className="bg-gradient-to-br from-primary-100 to-primary-200 text-primary-700">
+              <AvatarFallback className="bg-gradient-to-br from-primary/10 to-primary/20 text-primary">
                 <Bot className="w-4 h-4" />
               </AvatarFallback>
             </>
@@ -233,7 +233,7 @@ export default function ChatPage() {
           <div
             className={`inline-block p-4 rounded-2xl ${
               isUser
-                ? "bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg"
+                ? "bg-gradient-to-r from-primary to-primary text-white shadow-lg"
                 : "bg-white border border-neutral-200 text-neutral-800 shadow-sm"
             }`}
           >
@@ -247,9 +247,9 @@ export default function ChatPage() {
                     .replace(/\n/g, "<br>")
                     .replace(
                       /\[([^\]]+)\]\(([^)]+)\)/g,
-                      '<a href="$2" class="text-primary-600 hover:text-primary-700 hover:underline font-medium transition-colors duration-200 cursor-pointer" onclick="window.location.href=\'$2\'">$1</a>',
+                      '<a href="$2" class="text-primary hover:text-primary/80 hover:underline font-medium transition-colors duration-200 cursor-pointer" onclick="window.location.href=\'$2\'">$1</a>',
                     )
-                    .replace(/•/g, '<span class="text-primary-500 mr-2">•</span>'),
+                    .replace(/•/g, '<span class="text-primary mr-2">•</span>'),
                 }}
               />
             </div>
@@ -263,13 +263,13 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary/5">
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-md border-b border-neutral-200/50 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary rounded-xl flex items-center justify-center">
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -329,7 +329,7 @@ export default function ChatPage() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask me about events, sessions, or anything else..."
-                  className="w-full pl-4 pr-12 py-3 border-0 bg-white/80 backdrop-blur-sm rounded-xl shadow-sm focus:ring-2 focus:ring-primary-500 focus:ring-offset-0 transition-all duration-200"
+                  className="w-full pl-4 pr-12 py-3 border-0 bg-white/80 backdrop-blur-sm rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:ring-offset-0 transition-all duration-200"
                   disabled={loading}
                 />
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -339,7 +339,7 @@ export default function ChatPage() {
               <Button
                 type="submit"
                 disabled={loading || !input.trim()}
-                className="px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-3 bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary/90 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
               </Button>

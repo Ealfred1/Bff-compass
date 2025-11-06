@@ -41,11 +41,11 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-primary-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-primary/5 relative overflow-hidden">
       {/* Geometric Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-0 w-80 h-80 bg-secondary-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl"></div>
         <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 1200 800">
           <defs>
             <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -78,7 +78,7 @@ export default function ForgotPasswordPage() {
         <div className="w-full max-w-md">
           <Card className="border-0 bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl">
             <CardHeader className="text-center pb-8">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+              <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <Mail className="w-8 h-8 text-white" />
               </div>
               <CardTitle className="text-2xl font-bold">Reset your password</CardTitle>
@@ -135,7 +135,7 @@ export default function ForgotPasswordPage() {
 
                   <Button
                     type="submit"
-                    className="w-full h-12 rounded-xl bg-primary-500 hover:bg-primary-600 shadow-lg"
+                    className="w-full h-12 rounded-xl bg-primary hover:bg-primary/90 shadow-lg text-white"
                     disabled={loading}
                   >
                     {loading ? "Sending..." : "Send reset link"}
@@ -145,7 +145,7 @@ export default function ForgotPasswordPage() {
 
               <div className="text-center text-sm">
                 <span className="text-neutral-600">Remember your password? </span>
-                <Link href="/auth/login" className="text-primary-600 hover:text-primary-700 font-medium">
+                    <Link href="/auth/login" className="text-primary hover:text-primary/80 font-medium">
                   Sign in
                 </Link>
               </div>

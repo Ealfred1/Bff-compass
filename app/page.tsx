@@ -100,19 +100,19 @@ export default function LandingPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-primary-50 font-poppins">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-primary/5 font-poppins">
       {/* Header */}
       <header className="container mx-auto px-4 py-6">
         <nav className="flex items-center justify-between">
           <LogoText />
           <div className="hidden md:flex items-center space-x-6">
-            <Link href="/features" className="text-neutral-600 hover:text-primary-600 font-medium">
+            <Link href="/features" className="text-neutral-600 hover:text-primary font-medium">
               Features
             </Link>
-            <Link href="/about" className="text-neutral-600 hover:text-primary-600 font-medium">
+            <Link href="/about" className="text-neutral-600 hover:text-primary font-medium">
               About
             </Link>
-            <Link href="/contact" className="text-neutral-600 hover:text-primary-600 font-medium">
+            <Link href="/contact" className="text-neutral-600 hover:text-primary font-medium">
               Contact
             </Link>
             <Button asChild>
@@ -127,10 +127,10 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <Badge className="mb-6 bg-primary-100 text-primary-700 font-grotesk font-medium">Student Engagement Platform</Badge>
+              <Badge className="mb-6 bg-primary/10 text-primary font-grotesk font-medium">Student Engagement Platform</Badge>
               <h1 className="text-5xl lg:text-6xl font-bold text-neutral-900 mb-6 leading-tight font-grotesk">
                 Connect, Learn, and{" "}
-                <span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent">
                   Thrive
                 </span>{" "}
                 Together
@@ -153,15 +153,15 @@ export default function LandingPage() {
 
               <div className="flex items-center space-x-8 text-sm text-neutral-600 font-poppins">
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-4 h-4 text-primary-500" />
+                  <CheckCircle className="w-4 h-4 text-primary" />
                   <span>10,000+ Students</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Globe className="w-4 h-4 text-primary-500" />
+                  <Globe className="w-4 h-4 text-primary" />
                   <span>500+ Universities</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Star className="w-4 h-4 text-primary-500" />
+                  <Star className="w-4 h-4 text-primary" />
                   <span>98% Satisfaction</span>
                 </div>
               </div>
@@ -169,7 +169,7 @@ export default function LandingPage() {
             
             {/* Video Carousel */}
             <div className="relative">
-              <div className="bg-gradient-to-br from-primary-500 to-primary-600 rounded-3xl p-8 text-white text-center">
+              <div className="bg-gradient-to-br from-primary to-primary rounded-3xl p-8 text-white text-center shadow-xl">
                 <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Play className="w-12 h-12 text-white" />
                 </div>
@@ -177,7 +177,7 @@ export default function LandingPage() {
                 <p className="text-lg mb-6 opacity-90">
                   Watch how students are building meaningful connections and overcoming loneliness
                 </p>
-                <Button size="lg" variant="secondary" className="bg-white text-primary-600 hover:bg-gray-100">
+                <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-gray-100">
                   <Play className="w-5 h-5 mr-2" />
                   Watch Demo Video
                 </Button>
@@ -207,7 +207,7 @@ export default function LandingPage() {
       <section className="container mx-auto px-4 py-20">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="mb-4 bg-primary-100 text-primary-700 font-grotesk font-medium">Platform Features</Badge>
+            <Badge className="mb-4 bg-primary/10 text-primary font-grotesk font-medium">Platform Features</Badge>
             <h2 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6 font-grotesk">
               Everything You Need to{" "}
               <span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">
@@ -248,7 +248,7 @@ export default function LandingPage() {
       <section className="container mx-auto px-4 py-20">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <Badge className="mb-4 bg-primary-100 text-primary-700 font-grotesk font-medium">Student Success Stories</Badge>
+            <Badge className="mb-4 bg-primary/10 text-primary font-grotesk font-medium">Student Success Stories</Badge>
             <h2 className="text-4xl lg:text-5xl font-bold text-neutral-900 mb-6 font-grotesk">
               Loved by{" "}
               <span className="bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">
@@ -291,7 +291,7 @@ export default function LandingPage() {
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-20">
         <div className="max-w-4xl mx-auto text-center">
-          <Card className="border-2 border-primary-200 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-3xl">
+          <Card className="border-2 border-primary/20 bg-gradient-to-r from-primary to-primary text-white rounded-3xl">
             <CardContent className="p-12">
               <h2 className="text-4xl font-bold mb-4 font-grotesk">Ready to Transform Your Student Experience?</h2>
               <p className="text-xl mb-8 opacity-90 font-poppins">
@@ -304,7 +304,7 @@ export default function LandingPage() {
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary-600 font-grotesk font-medium" asChild>
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary font-grotesk font-medium" asChild>
                   <Link href="/features">Learn More</Link>
                 </Button>
               </div>
@@ -327,13 +327,13 @@ export default function LandingPage() {
               <h4 className="font-semibold text-neutral-900 mb-3 font-grotesk">Platform</h4>
               <ul className="space-y-2 text-sm text-neutral-600 font-poppins">
                 <li>
-                  <Link href="/features" className="hover:text-primary-600">Features</Link>
+                  <Link href="/features" className="hover:text-primary">Features</Link>
                 </li>
                 <li>
-                  <Link href="/about" className="hover:text-primary-600">About Us</Link>
+                  <Link href="/about" className="hover:text-primary">About Us</Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-primary-600">Contact</Link>
+                  <Link href="/contact" className="hover:text-primary">Contact</Link>
                 </li>
               </ul>
             </div>
@@ -341,32 +341,32 @@ export default function LandingPage() {
               <h4 className="font-semibold text-neutral-900 mb-3 font-grotesk">Support</h4>
               <ul className="space-y-2 text-sm text-neutral-600 font-poppins">
                 <li>
-                  <Link href="/help" className="hover:text-primary-600">Help Center</Link>
+                  <Link href="/help" className="hover:text-primary">Help Center</Link>
                 </li>
                 <li>
-                  <Link href="/privacy" className="hover:text-primary-600">Privacy Policy</Link>
+                  <Link href="/privacy" className="hover:text-primary">Privacy Policy</Link>
                 </li>
                 <li>
-                  <Link href="/terms" className="hover:text-primary-600">Terms of Service</Link>
+                  <Link href="/terms" className="hover:text-primary">Terms of Service</Link>
                 </li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold text-neutral-900 mb-3 font-grotesk">Connect</h4>
               <div className="flex space-x-4">
-                <Link href="#" className="text-neutral-600 hover:text-primary-600">
+                <Link href="#" className="text-neutral-600 hover:text-primary">
                   <Instagram className="w-5 h-5" />
                 </Link>
-                <Link href="#" className="text-neutral-600 hover:text-primary-600">
+                <Link href="#" className="text-neutral-600 hover:text-primary">
                   <Facebook className="w-5 h-5" />
                 </Link>
-                <Link href="#" className="text-neutral-600 hover:text-primary-600">
+                <Link href="#" className="text-neutral-600 hover:text-primary">
                   <Twitter className="w-5 h-5" />
                 </Link>
-                <Link href="#" className="text-neutral-600 hover:text-primary-600">
+                <Link href="#" className="text-neutral-600 hover:text-primary">
                   <Linkedin className="w-5 h-5" />
                 </Link>
-                <Link href="#" className="text-neutral-600 hover:text-primary-600">
+                <Link href="#" className="text-neutral-600 hover:text-primary">
                   <Youtube className="w-5 h-5" />
                 </Link>
               </div>

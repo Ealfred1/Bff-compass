@@ -163,7 +163,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary/5">
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-neutral-900 mb-2 font-grotesk">Profile Settings</h1>
@@ -189,7 +189,7 @@ export default function ProfilePage() {
                 <div className="relative">
                   <Avatar className="w-32 h-32 border-4 border-white shadow-xl">
                     <AvatarImage src={profile?.avatar_url || user?.user_metadata?.avatar_url || ""} alt={profile?.display_name || ""} />
-                    <AvatarFallback className="text-3xl bg-primary-100 text-primary-700 font-grotesk">
+                    <AvatarFallback className="text-3xl bg-primary/10 text-primary font-grotesk">
                       {profile?.display_name?.charAt(0) || user?.email?.charAt(0) || "U"}
                     </AvatarFallback>
                   </Avatar>
@@ -368,8 +368,8 @@ export default function ProfilePage() {
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-4 gap-6">
-              <div className="text-center p-4 bg-primary-50 rounded-xl">
-                <div className="text-2xl font-bold text-primary-600 font-grotesk">{stats.eventsAttended}</div>
+              <div className="text-center p-4 bg-primary/5 rounded-xl">
+                <div className="text-2xl font-bold text-primary font-grotesk">{stats.eventsAttended}</div>
                 <div className="text-sm text-neutral-600 font-poppins">Events Joined</div>
               </div>
               <div className="text-center p-4 bg-secondary-50 rounded-xl">
@@ -380,8 +380,8 @@ export default function ProfilePage() {
                 <div className="text-2xl font-bold text-accent-600 font-grotesk">{stats.connections}</div>
                 <div className="text-sm text-neutral-600 font-poppins">Connections</div>
               </div>
-              <div className="text-center p-4 bg-primary-50 rounded-xl">
-                <div className="text-2xl font-bold text-primary-600 font-grotesk">{stats.badgesEarned}</div>
+              <div className="text-center p-4 bg-primary/5 rounded-xl">
+                <div className="text-2xl font-bold text-primary font-grotesk">{stats.badgesEarned}</div>
                 <div className="text-sm text-neutral-600 font-poppins">Badges Earned</div>
               </div>
             </div>
