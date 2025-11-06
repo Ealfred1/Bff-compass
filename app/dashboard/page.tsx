@@ -36,90 +36,90 @@ export default async function DashboardPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="border-0 bg-gradient-to-br from-blue-50 to-blue-100/50 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
-                <CardTitle className="font-grotesk flex items-center gap-2 text-blue-900">
+                <CardTitle className="font-grotesk flex items-center gap-2 text-primary">
                   <span className="text-2xl">🤖</span> AI Assistant
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-blue-800/80 mb-4 font-poppins">
+                <p className="text-sm text-neutral-700 mb-4 font-poppins">
                   Ask about events, connections, badges, and your buddy group
                 </p>
                 <Link href="/dashboard/chat">
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white border-0 font-poppins shadow-md">
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
                     Chat Now
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
-            <Card className="border-0 bg-gradient-to-br from-purple-50 to-purple-100/50 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
-                <CardTitle className="font-grotesk text-purple-900">My Buddy Group</CardTitle>
+                <CardTitle className="font-grotesk text-primary">My Buddy Group</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-purple-800/80 mb-4 font-poppins">
+                <p className="text-sm text-neutral-700 mb-4 font-poppins">
                   AI-matched groups of 3-5 people with shared interests
                 </p>
                 <Link href="/dashboard/matches">
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white border-0 font-poppins shadow-md">
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
                     Find My Group
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
-            <Card className="border-0 bg-gradient-to-br from-green-50 to-green-100/50 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
-                <CardTitle className="font-grotesk text-green-900">My Guidance</CardTitle>
+                <CardTitle className="font-grotesk text-primary">My Guidance</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-green-800/80 mb-4 font-poppins">Daily messages & weekly videos for your wellness</p>
+                <p className="text-sm text-neutral-700 mb-4 font-poppins">Daily messages & weekly videos for your wellness</p>
                 <Link href="/dashboard/guidance">
-                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white border-0 font-poppins shadow-md">
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
                     View Guidance
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
-            <Card className="border-0 bg-gradient-to-br from-orange-50 to-orange-100/50 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
-                <CardTitle className="font-grotesk text-orange-900">Events</CardTitle>
+                <CardTitle className="font-grotesk text-primary">Events</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-orange-800/80 mb-4 font-poppins">Join in-person activities and earn badges</p>
+                <p className="text-sm text-neutral-700 mb-4 font-poppins">Join in-person activities and earn badges</p>
                 <Link href="/dashboard/events">
-                  <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white border-0 font-poppins shadow-md">
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
                     View Events
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
-            <Card className="border-0 bg-gradient-to-br from-pink-50 to-pink-100/50 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
-                <CardTitle className="font-grotesk text-pink-900">Track Mood</CardTitle>
+                <CardTitle className="font-grotesk text-primary">Track Mood</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-pink-800/80 mb-4 font-poppins">Monitor your wellbeing journey</p>
+                <p className="text-sm text-neutral-700 mb-4 font-poppins">Monitor your wellbeing journey</p>
                 <Link href="/dashboard/mood">
-                  <Button className="w-full bg-pink-600 hover:bg-pink-700 text-white border-0 font-poppins shadow-md">
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
                     Track Mood
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
-            <Card className="border-0 bg-gradient-to-br from-yellow-50 to-yellow-100/50 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
-                <CardTitle className="font-grotesk text-yellow-900">My Badges</CardTitle>
+                <CardTitle className="font-grotesk text-primary">My Badges</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-yellow-800/80 mb-4 font-poppins">Earn achievements as you connect</p>
+                <p className="text-sm text-neutral-700 mb-4 font-poppins">Earn achievements as you connect</p>
                 <Link href="/dashboard/badges">
-                  <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white border-0 font-poppins shadow-md">
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
                     View Badges
                   </Button>
                 </Link>
@@ -140,14 +140,14 @@ export default async function DashboardPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-0 bg-gradient-to-br from-indigo-50 to-indigo-100/50 shadow-lg hover:shadow-xl transition-shadow">
+            <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg hover:shadow-xl transition-shadow">
               <CardHeader>
-                <CardTitle className="font-grotesk text-indigo-900">My Profile</CardTitle>
+                <CardTitle className="font-grotesk text-primary">My Profile</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-indigo-800/80 mb-4 font-poppins">Manage your account and preferences</p>
+                <p className="text-sm text-neutral-700 mb-4 font-poppins">Manage your account and preferences</p>
                 <Link href="/dashboard/profile">
-                  <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white border-0 font-poppins shadow-md">
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 font-poppins shadow-md">
                     View Profile
                   </Button>
                 </Link>

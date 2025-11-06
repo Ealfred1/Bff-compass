@@ -190,18 +190,19 @@ export default function ChatPage() {
   }
 
   const getAvatarColor = (name: string): string => {
-    const colors = [
-      "bg-blue-500",
-      "bg-green-500",
-      "bg-purple-500",
-      "bg-pink-500",
-      "bg-indigo-500",
-      "bg-yellow-500",
-      "bg-red-500",
+    // Generate consistent green-based colors
+    const greenShades = [
+      "bg-emerald-500",
       "bg-teal-500",
+      "bg-green-500",
+      "bg-lime-600",
+      "bg-emerald-600",
+      "bg-teal-600",
+      "bg-green-600",
+      "bg-emerald-400",
     ]
-    const index = name.charCodeAt(0) % colors.length
-    return colors[index]
+    const index = name.charCodeAt(0) % greenShades.length
+    return greenShades[index]
   }
 
   const renderMessage = (message: Message) => {
@@ -302,7 +303,7 @@ export default function ChatPage() {
               {loading && (
                 <div className="flex gap-3 mb-6">
                   <Avatar className="w-8 h-8 mr-3">
-                    <AvatarFallback className="bg-gradient-to-br from-purple-100 to-blue-100 text-purple-600">
+                    <AvatarFallback className="bg-gradient-to-br from-primary/10 to-primary/20 text-primary">
                       <Bot className="w-4 h-4" />
                     </AvatarFallback>
                   </Avatar>

@@ -36,18 +36,19 @@ interface BuddyGroupCardProps {
 }
 
 function getAvatarColor(name: string): string {
-  const colors = [
-    "bg-blue-500",
-    "bg-green-500",
-    "bg-purple-500",
-    "bg-pink-500",
-    "bg-indigo-500",
-    "bg-yellow-500",
-    "bg-red-500",
+  // Generate consistent green-based colors
+  const greenShades = [
+    "bg-emerald-500",
     "bg-teal-500",
+    "bg-green-500",
+    "bg-lime-600",
+    "bg-emerald-600",
+    "bg-teal-600",
+    "bg-green-600",
+    "bg-emerald-400",
   ]
-  const index = name.charCodeAt(0) % colors.length
-  return colors[index]
+  const index = name.charCodeAt(0) % greenShades.length
+  return greenShades[index]
 }
 
 export function BuddyGroupCard({ group, members, myRole }: BuddyGroupCardProps) {
@@ -63,7 +64,7 @@ export function BuddyGroupCard({ group, members, myRole }: BuddyGroupCardProps) 
   const matchingCriteria = group.matching_criteria as any
 
   return (
-    <Card className="border-0 bg-gradient-to-br from-purple-50 via-blue-50 to-primary/10 shadow-xl">
+    <Card className="border-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent shadow-xl">
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">
@@ -149,7 +150,7 @@ export function BuddyGroupCard({ group, members, myRole }: BuddyGroupCardProps) 
             {matchingCriteria.loneliness_category && (
               <div className="flex items-center gap-2 text-sm">
                 <span className="text-neutral-600 font-poppins">Wellness Level:</span>
-                <Badge variant="secondary" className="font-poppins bg-blue-100 text-blue-800 border-blue-200">
+                <Badge variant="secondary" className="font-poppins bg-primary/10 text-primary border-primary/20">
                   {matchingCriteria.loneliness_category}
                 </Badge>
               </div>
@@ -159,7 +160,7 @@ export function BuddyGroupCard({ group, members, myRole }: BuddyGroupCardProps) 
                 <span className="text-neutral-600 whitespace-nowrap font-poppins">Shared Interests:</span>
                 <div className="flex flex-wrap gap-1">
                   {matchingCriteria.leisure_categories.map((cat: string, idx: number) => (
-                    <Badge key={idx} variant="outline" className="text-xs font-poppins border-green-200 bg-green-50 text-green-800">
+                    <Badge key={idx} variant="outline" className="text-xs font-poppins border-primary/30 bg-primary/5 text-primary">
                       {cat}
                     </Badge>
                   ))}

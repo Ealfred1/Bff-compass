@@ -43,18 +43,19 @@ function getInitials(name: string): string {
 }
 
 function getAvatarColor(name: string): string {
-  const colors = [
-    "bg-blue-500",
-    "bg-green-500",
-    "bg-purple-500",
-    "bg-pink-500",
-    "bg-indigo-500",
-    "bg-yellow-500",
-    "bg-red-500",
+  // Generate consistent green-based colors
+  const greenShades = [
+    "bg-emerald-500",
     "bg-teal-500",
+    "bg-green-500",
+    "bg-lime-600",
+    "bg-emerald-600",
+    "bg-teal-600",
+    "bg-green-600",
+    "bg-emerald-400",
   ]
-  const index = name.charCodeAt(0) % colors.length
-  return colors[index]
+  const index = name.charCodeAt(0) % greenShades.length
+  return greenShades[index]
 }
 
 export default function ConnectionsPage() {
@@ -254,7 +255,7 @@ export default function ConnectionsPage() {
                                 <CardDescription className="font-poppins">@{user.username}</CardDescription>
                               </div>
                               {user.compatibility_score > 0 && (
-                                <Badge variant="secondary" className="text-xs bg-green-100 text-green-800 border-green-200">
+                                <Badge variant="secondary" className="text-xs bg-primary/10 text-primary border-primary/20">
                                   {user.compatibility_score}% match
                                 </Badge>
                               )}
@@ -267,7 +268,7 @@ export default function ConnectionsPage() {
                             {user.leisure_categories && user.leisure_categories.length > 0 && (
                               <div className="flex flex-wrap gap-1 mb-3">
                                 {user.leisure_categories.slice(0, 3).map((cat, idx) => (
-                                  <Badge key={idx} variant="outline" className="text-xs border-neutral-200 bg-neutral-50">
+                                  <Badge key={idx} variant="outline" className="text-xs border-primary/30 bg-primary/5 text-primary">
                                     {cat}
                                   </Badge>
                                 ))}
@@ -275,7 +276,7 @@ export default function ConnectionsPage() {
                             )}
                             {user.loneliness_category && (
                               <div className="mb-3">
-                                <Badge variant="outline" className="text-xs border-blue-200 bg-blue-50 text-blue-800">
+                                <Badge variant="outline" className="text-xs border-primary/30 bg-primary/5 text-primary">
                                   {user.loneliness_category} Wellness
                                 </Badge>
                               </div>

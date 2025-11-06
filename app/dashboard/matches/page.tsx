@@ -114,7 +114,7 @@ export default function MatchesPage() {
           ) : (
             <div className="space-y-6">
               {/* No Group Yet - Show Matching Card */}
-              <Card className="border-0 bg-gradient-to-br from-purple-50 via-blue-50 to-primary/10 shadow-xl">
+              <Card className="border-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent shadow-xl">
                 <CardHeader className="text-center pb-4">
                   <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/80 shadow-lg">
                     <Users className="h-10 w-10 text-white" />
@@ -135,7 +135,7 @@ export default function MatchesPage() {
 
                     <div className="space-y-3">
                       <div className="flex gap-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold text-sm flex-shrink-0 shadow-md">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/80 text-white font-bold text-sm flex-shrink-0 shadow-md">
                           1
                         </div>
                         <div>
@@ -147,7 +147,7 @@ export default function MatchesPage() {
                       </div>
 
                       <div className="flex gap-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-green-600 text-white font-bold text-sm flex-shrink-0 shadow-md">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/80 text-white font-bold text-sm flex-shrink-0 shadow-md">
                           2
                         </div>
                         <div>
@@ -159,7 +159,7 @@ export default function MatchesPage() {
                       </div>
 
                       <div className="flex gap-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-purple-600 text-white font-bold text-sm flex-shrink-0 shadow-md">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/80 text-white font-bold text-sm flex-shrink-0 shadow-md">
                           3
                         </div>
                         <div>
@@ -207,34 +207,34 @@ export default function MatchesPage() {
 
               {/* Benefits Section */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="border-0 bg-gradient-to-br from-blue-50 to-blue-100/50 shadow-lg">
+                <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg">
                   <CardHeader>
-                    <CardTitle className="text-base font-grotesk text-blue-900">Safe Space</CardTitle>
+                    <CardTitle className="text-base font-grotesk text-primary">Safe Space</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-blue-800/80 font-poppins">
+                    <p className="text-sm text-neutral-700 font-poppins">
                       End-to-end encrypted group chats ensure your conversations stay private
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card className="border-0 bg-gradient-to-br from-green-50 to-green-100/50 shadow-lg">
+                <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg">
                   <CardHeader>
-                    <CardTitle className="text-base font-grotesk text-green-900">Shared Growth</CardTitle>
+                    <CardTitle className="text-base font-grotesk text-primary">Shared Growth</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-green-800/80 font-poppins">
+                    <p className="text-sm text-neutral-700 font-poppins">
                       Support each other's wellness journey and celebrate milestones together
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card className="border-0 bg-gradient-to-br from-purple-50 to-purple-100/50 shadow-lg">
+                <Card className="border-0 bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg">
                   <CardHeader>
-                    <CardTitle className="text-base font-grotesk text-purple-900">Real Connections</CardTitle>
+                    <CardTitle className="text-base font-grotesk text-primary">Real Connections</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-purple-800/80 font-poppins">
+                    <p className="text-sm text-neutral-700 font-poppins">
                       Small groups foster deeper, more meaningful friendships
                     </p>
                   </CardContent>

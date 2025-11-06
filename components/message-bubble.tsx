@@ -18,19 +18,19 @@ function getInitials(name: string): string {
 }
 
 function getAvatarColor(name: string): string {
-  // Generate a consistent color based on the name
-  const colors = [
-    "bg-blue-500",
-    "bg-green-500",
-    "bg-purple-500",
-    "bg-pink-500",
-    "bg-indigo-500",
-    "bg-yellow-500",
-    "bg-red-500",
+  // Generate consistent green-based colors based on the name
+  const greenShades = [
+    "bg-emerald-500",
     "bg-teal-500",
+    "bg-green-500",
+    "bg-lime-600",
+    "bg-emerald-600",
+    "bg-teal-600",
+    "bg-green-600",
+    "bg-emerald-400",
   ]
-  const index = name.charCodeAt(0) % colors.length
-  return colors[index]
+  const index = name.charCodeAt(0) % greenShades.length
+  return greenShades[index]
 }
 
 export function MessageBubble({
