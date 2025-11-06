@@ -106,21 +106,29 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-primary/5 relative overflow-hidden">
+    <div className="min-h-screen bg-[#F9FAFB] relative overflow-hidden">
       {/* Geometric Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 right-0 w-96 h-96 bg-[#0D9488]/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-0 w-80 h-80 bg-[#F97316]/10 rounded-full blur-3xl"></div>
         <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 1200 800">
           <defs>
             <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-              <circle cx="20" cy="20" r="1" fill="#10B981" opacity="0.1" />
+              <circle cx="20" cy="20" r="1" fill="#0D9488" opacity="0.1" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#dots)" />
           <path
             d="M0,200 Q300,100 600,200 T1200,200"
-            stroke="#10B981"
+            stroke="#0D9488"
+            strokeWidth="2"
+            fill="none"
+            opacity="0.2"
+            strokeDasharray="10,5"
+          />
+          <path
+            d="M0,400 Q600,300 1200,400"
+            stroke="#0D9488"
             strokeWidth="2"
             fill="none"
             opacity="0.2"
@@ -131,8 +139,8 @@ export default function LoginPage() {
 
       {/* Back to Home */}
       <div className="absolute top-6 left-6 z-10">
-        <Button variant="ghost" asChild className="rounded-xl">
-          <Link href="/" className="flex items-center space-x-2">
+        <Button variant="ghost" asChild className="rounded-lg">
+          <Link href="/" className="flex items-center space-x-2 text-[#374151] hover:text-[#0D9488]">
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Home</span>
           </Link>
@@ -141,72 +149,72 @@ export default function LoginPage() {
 
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <div className="w-full max-w-md">
-          <Card className="border-0 bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl">
-            <CardHeader className="text-center pb-8">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+          <Card className="border border-[#E5E7EB] bg-white rounded-lg shadow-lg">
+            <CardHeader className="text-center pb-8 pt-8">
+              <div className="w-16 h-16 bg-gradient-to-br from-[#0D9488] to-[#0F766E] rounded-lg flex items-center justify-center mx-auto mb-6 shadow-md">
                 <span className="text-white font-bold text-2xl">BC</span>
               </div>
-              <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
-              <CardDescription className="text-neutral-600">
+              <CardTitle className="text-2xl font-bold text-[#111827]">Welcome back</CardTitle>
+              <CardDescription className="text-[#6B7280] mt-2">
                 Sign in to your BFF-Connect account and continue your learning journey
               </CardDescription>
         </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 px-8 pb-8">
               <Button
                 variant="outline"
-                className="w-full h-12 rounded-xl bg-white/50 backdrop-blur-sm border-neutral-200 hover:bg-white"
+                className="w-full h-12 rounded-md bg-white border border-[#E5E7EB] hover:bg-[#F9FAFB] text-[#0D9488] font-semibold shadow-sm"
                 onClick={handleGoogleSignIn}
               >
-                <Chrome className="mr-3 h-5 w-5" />
+                <Chrome className="mr-3 h-5 w-5 text-[#0D9488]" />
                 Continue with Google
               </Button>
 
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t border-neutral-200" />
+                  <span className="w-full border-t border-[#E5E7EB]" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white px-4 text-neutral-500 font-medium">Or continue with email</span>
+                  <span className="bg-white px-4 text-[#6B7280] font-medium">Or continue with email</span>
                 </div>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-medium text-neutral-700">
+                  <Label htmlFor="email" className="text-sm font-medium text-[#374151]">
                     Email Address
               </Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3.5 h-4 w-4 text-neutral-400" />
+                    <Mail className="absolute left-3 top-3.5 h-4 w-4 text-[#9CA3AF]" />
               <Input
                 id="email"
                 type="email"
                       placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10 h-12 rounded-xl border-neutral-200 bg-white/50 backdrop-blur-sm focus:bg-white"
+                      className="pl-10 h-12 rounded-md border-[#E5E7EB] bg-white focus:border-[#0D9488] focus:ring-2 focus:ring-[#0D9488]/20"
                       required
               />
                   </div>
             </div>
             <div className="space-y-2">
-                  <Label htmlFor="password" className="text-sm font-medium text-neutral-700">
+                  <Label htmlFor="password" className="text-sm font-medium text-[#374151]">
                 Password
               </Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-3.5 h-4 w-4 text-neutral-400" />
+                    <Lock className="absolute left-3 top-3.5 h-4 w-4 text-[#9CA3AF]" />
               <Input
                 id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                      className="pl-10 pr-10 h-12 rounded-xl border-neutral-200 bg-white/50 backdrop-blur-sm focus:bg-white"
+                      className="pl-10 pr-10 h-12 rounded-md border-[#E5E7EB] bg-white focus:border-[#0D9488] focus:ring-2 focus:ring-[#0D9488]/20"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-3.5 text-neutral-400 hover:text-neutral-600"
+                      className="absolute right-3 top-3.5 text-[#9CA3AF] hover:text-[#374151]"
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
@@ -215,7 +223,7 @@ export default function LoginPage() {
 
                 <div className="flex items-center justify-between">
                   <div className="text-sm">
-                    <Link href="/auth/forgot-password" className="text-primary hover:text-primary/80 font-medium">
+                    <Link href="/auth/forgot-password" className="text-[#0D9488] hover:text-[#0F766E] font-medium">
                       Forgot password?
                     </Link>
                   </div>
@@ -223,7 +231,7 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-                  className="w-full h-12 rounded-xl bg-primary hover:bg-primary/90 shadow-lg text-white"
+                  className="w-full h-12 rounded-md bg-[#0D9488] hover:bg-[#0F766E] text-white font-semibold shadow-sm hover:shadow-md transition-all"
                   disabled={loading}
             >
                   {loading ? "Signing in..." : "Sign in"}
@@ -231,8 +239,8 @@ export default function LoginPage() {
           </form>
 
               <div className="text-center text-sm">
-                <span className="text-neutral-600">Don't have an account? </span>
-                <Link href="/auth/sign-up" className="text-primary hover:text-primary/80 font-medium">
+                <span className="text-[#6B7280]">Don't have an account? </span>
+                <Link href="/auth/sign-up" className="text-[#0D9488] hover:text-[#0F766E] font-medium">
                   Sign up for free
             </Link>
               </div>
