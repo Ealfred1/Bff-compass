@@ -1,126 +1,308 @@
 "use client"
 
 import type React from "react"
+import { useEffect } from "react"
 
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { toast } from "sonner"
+import { Mail, Lock, Chrome, ArrowLeft, Eye, EyeOff, CheckCircle, User } from "lucide-react"
 
-export default function SignUpPage() {
+export default function RegisterPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [repeatPassword, setRepeatPassword] = useState("")
-  const [error, setError] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const supabase = createClient()
-    setIsLoading(true)
-    setError(null)
+    setLoading(true)
 
-    if (password !== repeatPassword) {
-      setError("Passwords do not match")
-      setIsLoading(false)
+    if (password !== confirmPassword) {
+      toast.error("Password mismatch: Please make sure your passwords match.")
+      setLoading(false)
       return
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters")
-      setIsLoading(false)
+      toast.error("Password too short: Password must be at least 6 characters long.")
+      setLoading(false)
       return
     }
 
     try {
+      const supabase = createClient()
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo:
-            process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL || `${window.location.origin}/auth/sign-up-confirm`,
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
       })
       if (error) throw error
-      router.push("/auth/sign-up-success")
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred")
+
+      toast.success("Account created successfully! Welcome to BFF-Connect! You can now sign in.")
+      router.push("/auth/login?message=account_created")
+    } catch (error: any) {
+      console.error('Registration error:', error)
+      
+      let errorTitle = "Registration Failed"
+      let errorDescription = error.message
+      
+      if (error.message?.includes("user_already_exists") || error.message?.includes("already registered")) {
+        errorTitle = "Account Already Exists"
+        errorDescription = "An account with this email already exists. Please try signing in instead."
+      } else if (error.message?.includes("invalid_email")) {
+        errorTitle = "Invalid Email"
+        errorDescription = "Please enter a valid email address."
+      } else if (error.message?.includes("password_too_short")) {
+        errorTitle = "Password Too Short"
+        errorDescription = "Password must be at least 6 characters long."
+      } else if (error.message?.includes("weak_password")) {
+        errorTitle = "Weak Password"
+        errorDescription = "Please choose a stronger password with letters, numbers, and symbols."
+      }
+      
+      toast.error(`${errorTitle}: ${errorDescription}`)
     } finally {
-      setIsLoading(false)
+      setLoading(false)
     }
   }
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const supabase = createClient()
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      })
+      if (error) throw error
+    } catch (error: any) {
+      toast.error(`Error: ${error.message}`)
+    }
+  }
+
+  const benefits = [
+    "Connect with students from 500+ universities",
+    "Access to AI-powered study assistant",
+    "Join unlimited events and study sessions",
+    "Real-time collaboration tools",
+  ]
+
   return (
-    <div className="min-h-svh flex items-center justify-center p-6 bg-background">
-      <Card className="w-full max-w-sm border-border">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
-          <CardDescription>Sign up to get matched with your friend compass</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSignUp} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-foreground font-medium">
-                Email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="your@email.com"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="border-border bg-input text-foreground"
-              />
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-primary-50 relative overflow-hidden">
+      {/* Geometric Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-0 w-80 h-80 bg-secondary-500/10 rounded-full blur-3xl"></div>
+        <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 1200 800">
+          <defs>
+            <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+              <circle cx="20" cy="20" r="1" fill="#10B981" opacity="0.1" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dots)" />
+          <path
+            d="M0,200 Q300,100 600,200 T1200,200"
+            stroke="#10B981"
+            strokeWidth="2"
+            fill="none"
+            opacity="0.2"
+            strokeDasharray="10,5"
+          />
+        </svg>
+      </div>
+
+      {/* Back to Home */}
+      <div className="absolute top-6 left-6 z-10">
+        <Button variant="ghost" asChild className="rounded-xl">
+          <Link href="/" className="flex items-center space-x-2">
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to Home</span>
+          </Link>
+        </Button>
+      </div>
+
+      <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
+        <div className="w-full max-w-4xl grid lg:grid-cols-2 gap-8 items-center">
+          {/* Left Side - Benefits */}
+          <div className="hidden lg:block">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-3xl font-bold text-neutral-900 mb-4">Join the future of student collaboration</h2>
+                <p className="text-lg text-neutral-600">
+                  Connect with like-minded students, discover opportunities, and accelerate your academic success.
+                </p>
+              </div>
+              <div className="space-y-4">
+                {benefits.map((benefit, index) => (
+                  <div key={index} className="flex items-center space-x-3">
+                    <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-4 h-4 text-primary-600" />
+                    </div>
+                    <span className="text-neutral-700">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-neutral-200">
+                <div className="flex items-center space-x-4">
+                  <div className="flex -space-x-2">
+                    <div className="w-8 h-8 rounded-full border-2 border-white bg-primary-200"></div>
+                    <div className="w-8 h-8 rounded-full border-2 border-white bg-primary-300"></div>
+                    <div className="w-8 h-8 rounded-full border-2 border-white bg-primary-400"></div>
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-neutral-900">10,000+ students joined</div>
+                    <div className="text-xs text-neutral-600">in the last month</div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-foreground font-medium">
-                Password
-              </Label>
-              <Input
-                id="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="border-border bg-input text-foreground"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="repeat-password" className="text-foreground font-medium">
-                Confirm Password
-              </Label>
-              <Input
-                id="repeat-password"
-                type="password"
-                required
-                value={repeatPassword}
-                onChange={(e) => setRepeatPassword(e.target.value)}
-                className="border-border bg-input text-foreground"
-              />
-            </div>
-            {error && <p className="text-sm text-destructive font-medium">{error}</p>}
-            <Button
-              type="submit"
-              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary font-medium"
-              disabled={isLoading}
-            >
-              {isLoading ? "Creating account..." : "Sign Up"}
-            </Button>
-          </form>
-          <p className="text-sm text-muted-foreground text-center mt-4">
-            Already have an account?{" "}
-            <Link href="/auth/login" className="text-primary hover:underline font-medium">
-              Sign in
-            </Link>
-          </p>
-        </CardContent>
-      </Card>
+          </div>
+
+          {/* Right Side - Form */}
+          <div className="w-full max-w-md mx-auto">
+            <Card className="border-0 bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl">
+              <CardHeader className="text-center pb-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <User className="w-8 h-8 text-white" />
+                </div>
+                <CardTitle className="text-2xl font-bold">Create your account</CardTitle>
+                <CardDescription className="text-neutral-600">
+                  Join BFF-Connect and start connecting with fellow students
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <Button
+                  variant="outline"
+                  className="w-full h-12 rounded-xl bg-white/50 backdrop-blur-sm border-neutral-200 hover:bg-white"
+                  onClick={handleGoogleSignIn}
+                >
+                  <Chrome className="mr-3 h-5 w-5" />
+                  Continue with Google
+                </Button>
+
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t border-neutral-200" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-white px-4 text-neutral-500 font-medium">Or continue with email</span>
+                  </div>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-sm font-medium text-neutral-700">
+                      Email Address
+                    </Label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-3.5 h-4 w-4 text-neutral-400" />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="your.email@university.edu"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="pl-10 h-12 rounded-xl border-neutral-200 bg-white/50 backdrop-blur-sm focus:bg-white"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="password" className="text-sm font-medium text-neutral-700">
+                      Password
+                    </Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3.5 h-4 w-4 text-neutral-400" />
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Create a strong password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="pl-10 pr-10 h-12 rounded-xl border-neutral-200 bg-white/50 backdrop-blur-sm focus:bg-white"
+                        required
+                        minLength={6}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-3.5 text-neutral-400 hover:text-neutral-600"
+                      >
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="confirmPassword" className="text-sm font-medium text-neutral-700">
+                      Confirm Password
+                    </Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3.5 h-4 w-4 text-neutral-400" />
+                      <Input
+                        id="confirmPassword"
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="Confirm your password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className="pl-10 pr-10 h-12 rounded-xl border-neutral-200 bg-white/50 backdrop-blur-sm focus:bg-white"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute right-3 top-3.5 text-neutral-400 hover:text-neutral-600"
+                      >
+                        {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full h-12 rounded-xl bg-primary-500 hover:bg-primary-600 shadow-lg"
+                    disabled={loading}
+                  >
+                    {loading ? "Creating account..." : "Create account"}
+                  </Button>
+                </form>
+
+                <div className="text-center text-sm">
+                  <span className="text-neutral-600">Already have an account? </span>
+                  <Link href="/auth/login" className="text-primary-600 hover:text-primary-700 font-medium">
+                    Sign in
+                  </Link>
+                </div>
+
+                <div className="text-xs text-neutral-500 text-center">
+                  By creating an account, you agree to our{" "}
+                  <Link href="#" className="text-primary-600 hover:text-primary-700">
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link href="#" className="text-primary-600 hover:text-primary-700">
+                    Privacy Policy
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

@@ -139,6 +139,20 @@ export default async function DashboardPage() {
                 </Link>
               </CardContent>
             </Card>
+
+            <Card className="border-border">
+              <CardHeader>
+                <CardTitle className="font-poppins">My Profile</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4 font-poppins">Manage your account and preferences</p>
+                <Link href="/dashboard/profile">
+                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 border border-primary font-poppins">
+                    View Profile
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
