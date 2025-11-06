@@ -1,32 +1,23 @@
 "use client"
 
-import { useContext, useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   MessageCircle,
   Calendar,
   Users,
   ArrowRight,
-  Clock,
-  MapPin,
   Bot,
   User,
-  School,
-  Mail,
-  Heart,
-  Palette,
-  Target,
   Award,
   Shield,
-  Play,
   BookOpen,
-  Video,
+  Heart,
 } from "lucide-react"
 
 interface UserStats {
@@ -94,31 +85,59 @@ function DashboardContent() {
 
   const dashboardFeatures = [
     {
-      icon: Calendar,
-      title: "Events & Groups",
-      description: "Discover amazing campus events and join study groups! 🎉",
-      href: "/dashboard/events",
+      icon: Bot,
+      title: "AI Assistant",
+      description: "Ask about events, connections, badges, and your buddy group",
+      href: "/dashboard/chat",
       color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
     },
     {
       icon: Users,
-      title: "Study Groups",
-      description: "Find your perfect study squad and ace those exams! 📚",
+      title: "My Buddy Group",
+      description: "AI-matched groups of 3-5 people with shared interests",
       href: "/dashboard/matches",
       color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
     },
     {
-      icon: MessageCircle,
-      title: "Messages",
-      description: "Chat with your new friends and stay connected! 💬",
-      href: "/dashboard/connections",
+      icon: BookOpen,
+      title: "My Guidance",
+      description: "Daily messages & weekly videos for your wellness",
+      href: "/dashboard/guidance",
       color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
     },
     {
-      icon: Bot,
-      title: "AI Assistant",
-      description: "Your personal AI buddy for everything! 🤖✨",
-      href: "/dashboard/chat",
+      icon: Calendar,
+      title: "Events",
+      description: "Join in-person activities and earn badges",
+      href: "/dashboard/events",
+      color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
+    },
+    {
+      icon: Heart,
+      title: "Track Mood",
+      description: "Monitor your wellbeing journey",
+      href: "/dashboard/mood",
+      color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
+    },
+    {
+      icon: Award,
+      title: "My Badges",
+      description: "Earn achievements as you connect",
+      href: "/dashboard/badges",
+      color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
+    },
+    {
+      icon: Shield,
+      title: "Mental Health Resources",
+      description: "Crisis support & wellness resources",
+      href: "/dashboard/resources",
+      color: "bg-gradient-to-br from-red-100 to-red-200 text-red-700",
+    },
+    {
+      icon: User,
+      title: "My Profile",
+      description: "Manage your account and preferences",
+      href: "/dashboard/profile",
       color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
     },
   ]
@@ -151,30 +170,6 @@ function DashboardContent() {
       description: "Update your info & settings ⚙️",
       href: "/dashboard/profile",
       color: "bg-gradient-to-br from-primary/20 to-primary/10 text-primary",
-    },
-  ]
-
-  const recentActivity = [
-    {
-      type: "event",
-      title: "Study Group Session",
-      time: "2 hours ago",
-      icon: Users,
-      color: "bg-primary/10 text-primary",
-    },
-    {
-      type: "survey",
-      title: "Completed Daily Loneliness Survey",
-      time: "4 hours ago",
-      icon: Heart,
-      color: "bg-primary/10 text-primary",
-    },
-    {
-      type: "video",
-      title: "Watched Wellness Video",
-      time: "1 day ago",
-      icon: Play,
-      color: "bg-primary/10 text-primary",
     },
   ]
 
