@@ -8,7 +8,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
-  MessageCircle,
   Calendar,
   Users,
   ArrowRight,
@@ -18,6 +17,8 @@ import {
   Shield,
   BookOpen,
   Heart,
+  MapPin,
+  Clock,
 } from "lucide-react"
 
 interface UserStats {
@@ -37,10 +38,22 @@ interface UserStats {
   lastUpdated: string
 }
 
+interface EventSummary {
+  id: string
+  title: string
+  description: string | null
+  event_date: string | null
+  location: string | null
+  attendeeCount: number
+  isAttending: boolean
+}
+
 function DashboardContent() {
   const { user, profile } = useAuth()
   const [userStats, setUserStats] = useState<UserStats | null>(null)
   const [statsLoading, setStatsLoading] = useState(true)
+  const [topEvents, setTopEvents] = useState<EventSummary[]>([])
+  const [eventsLoading, setEventsLoading] = useState(true)
 
   // Fetch user statistics
   useEffect(() => {
@@ -80,6 +93,56 @@ function DashboardContent() {
     }
 
     fetchUserStats()
+  }, [user])
+
+  // Fetch top events (limit to 5)
+  useEffect(() => {
+    let isMounted = true
+
+    const fetchTopEvents = async () => {
+      if (!user) {
+        if (isMounted) {
+          setTopEvents([])
+          setEventsLoading(false)
+        }
+        return
+      }
+
+      try {
+        if (isMounted) {
+          setEventsLoading(true)
+        }
+
+        const response = await fetch("/api/dashboard/events/top", {
+          credentials: "include",
+        })
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch top events: ${response.status}`)
+        }
+
+        const data = await response.json()
+
+        if (isMounted) {
+          setTopEvents(data.events || [])
+        }
+      } catch (error) {
+        console.error("Error loading top events:", error)
+        if (isMounted) {
+          setTopEvents([])
+        }
+      } finally {
+        if (isMounted) {
+          setEventsLoading(false)
+        }
+      }
+    }
+
+    fetchTopEvents()
+
+    return () => {
+      isMounted = false
+    }
   }, [user])
 
   const dashboardFeatures = [
@@ -274,35 +337,87 @@ function DashboardContent() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6 pt-0">
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3 p-3 bg-[#F9FAFB] rounded-lg border-b border-[#E5E7EB] last:border-0">
-                    <div className="w-10 h-10 bg-[rgba(13,148,136,0.1)] rounded-lg flex items-center justify-center">
-                      <Calendar className="w-5 h-5 text-[#0D9488]" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="h-4 bg-[#E5E7EB] rounded w-3/4 mb-2"></div>
+            {eventsLoading ? (
+              <div className="space-y-3">
+                {[0, 1, 2, 3, 4].map((index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-3 p-3 bg-[#F9FAFB] rounded-lg border border-transparent"
+                  >
+                    <div className="w-10 h-10 bg-[rgba(13,148,136,0.08)] rounded-lg animate-pulse"></div>
+                    <div className="flex-1 space-y-2">
+                      <div className="h-4 bg-[#E5E7EB] rounded w-3/4"></div>
                       <div className="h-3 bg-[#E5E7EB] rounded w-1/2"></div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 bg-[#F9FAFB] rounded-lg border-b border-[#E5E7EB] last:border-0">
-                    <div className="w-10 h-10 bg-[rgba(13,148,136,0.1)] rounded-lg flex items-center justify-center">
-                      <Users className="w-5 h-5 text-[#0D9488]" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="h-4 bg-[#E5E7EB] rounded w-2/3 mb-2"></div>
-                      <div className="h-3 bg-[#E5E7EB] rounded w-1/3"></div>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3 p-3 bg-[#F9FAFB] rounded-lg">
-                    <div className="w-10 h-10 bg-[rgba(13,148,136,0.1)] rounded-lg flex items-center justify-center">
-                      <MessageCircle className="w-5 h-5 text-[#0D9488]" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="h-4 bg-[#E5E7EB] rounded w-4/5 mb-2"></div>
-                      <div className="h-3 bg-[#E5E7EB] rounded w-2/5"></div>
-                    </div>
-                  </div>
-                </div>
+                ))}
+              </div>
+            ) : topEvents.length > 0 ? (
+              <div className="space-y-3">
+                {topEvents.map((event) => {
+                  const eventDate = event.event_date ? new Date(event.event_date) : null
+                  const formattedDate = eventDate
+                    ? eventDate.toLocaleDateString(undefined, {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })
+                    : null
+                  const formattedTime = eventDate
+                    ? eventDate.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
+                    : null
+
+                  return (
+                    <Link key={event.id} href={`/dashboard/events/${event.id}`} className="block group">
+                      <div className="flex items-start gap-3 p-3 rounded-lg bg-[#F9FAFB] border border-[#E5E7EB] hover:border-[#0D9488]/40 transition-colors">
+                        <div className="mt-1 w-10 h-10 bg-[rgba(13,148,136,0.1)] rounded-lg flex items-center justify-center">
+                          <Calendar className="w-5 h-5 text-[#0D9488]" />
+                        </div>
+                        <div className="flex-1 space-y-1">
+                          <div className="flex items-start justify-between gap-2">
+                            <h4 className="text-sm font-semibold text-[#111827] font-grotesk leading-tight group-hover:text-[#0D9488] transition-colors">
+                              {event.title}
+                            </h4>
+                            {event.isAttending && (
+                              <Badge className="bg-[#0D9488] text-white border-0 shadow-sm">
+                                Going
+                              </Badge>
+                            )}
+                          </div>
+                          {event.description && (
+                            <p className="text-xs text-[#6B7280] font-poppins line-clamp-2">{event.description}</p>
+                          )}
+                          {eventDate && (
+                            <p className="flex items-center gap-1 text-xs text-[#374151] font-poppins">
+                              <Clock className="w-3.5 h-3.5 text-[#0D9488]" />
+                              {formattedDate}
+                              {formattedTime ? ` • ${formattedTime}` : null}
+                            </p>
+                          )}
+                          {event.location && (
+                            <p className="flex items-center gap-1 text-xs text-[#374151] font-poppins">
+                              <MapPin className="w-3.5 h-3.5 text-[#0D9488]" />
+                              {event.location}
+                            </p>
+                          )}
+                          <p className="flex items-center gap-1 text-xs text-[#374151] font-poppins">
+                            <Users className="w-3.5 h-3.5 text-[#0D9488]" />
+                            {event.attendeeCount} {event.attendeeCount === 1 ? "attendee" : "attendees"}
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+            ) : (
+              <div className="py-8 text-center text-sm text-[#6B7280] font-poppins">
+                No upcoming events right now. Check back soon!
+              </div>
+            )}
                 <div className="mt-6 text-center">
                   <Button 
                     asChild 

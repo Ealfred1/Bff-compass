@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "sonner"
 import { Mail, Lock, Chrome, ArrowLeft, Eye, EyeOff } from "lucide-react"
+import { useAuth } from "@/contexts/auth-context"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -20,6 +21,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { user, loading: authLoading } = useAuth()
 
   // Handle OAuth errors from URL parameters
   useEffect(() => {
@@ -49,6 +51,12 @@ export default function LoginPage() {
       toast.error(errorMessage)
     }
   }, [searchParams])
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.replace("/dashboard")
+    }
+  }, [authLoading, user, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
